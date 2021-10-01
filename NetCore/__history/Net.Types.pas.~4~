@@ -1,0 +1,11 @@
+unit Net.Types;
+
+interface
+const
+// [client/srv_client][response/request]
+// [client][request]
+  CLIENT_REQUEST_PROTOCOL_INFO = 0;
+
+implementation
+
+end.

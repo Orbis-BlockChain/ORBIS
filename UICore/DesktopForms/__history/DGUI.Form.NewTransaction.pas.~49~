@@ -1,0 +1,313 @@
+unit DGUI.Form.NewTransaction;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Classes,
+  System.Variants,
+  App.IHandlerCore,
+  App.Types,
+  App.Notifyer,
+  App.Globals,
+  App.Meta,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Dialogs,
+  FMX.Ani,
+  FMX.Objects,
+  FMX.Edit,
+  FMX.Layouts,
+  FMX.Controls.Presentation,
+  FMX.StdCtrls,
+  System.Math,
+  FMX.ListBox,
+  FMX.Effects,
+  DGUI.Form.Resources;
+
+type
+  TTokenBalance = record          //Можешь обозвать как тебе хочется и перекинуть в другой модуль
+    Name: String;                 //А тут заменить на TSymbol, полагаю
+    Balance: Double;
+  end;
+
+  TNewTransactionForm = class(TForm)
+    LogoLayout: TLayout;
+    OrbisLogoPath2: TPath;
+    OrbisLogoPath1: TPath;
+    OrbisLogoPath3: TPath;
+    GoTransRectangle: TRectangle;
+    GoTransLabel: TLabel;
+    EnterPassLayout: TLayout;
+    PayLabel: TLabel;
+    TokenEdit: TEdit;
+    ArrowPath: TPath;
+    ArrowColorAnimation: TColorAnimation;
+    BalanceLabel: TLabel;
+    TokenValueLabel: TLabel;
+    TokenNameLabel: TLabel;
+    FeePath: TPath;
+    FeeLabel: TLabel;
+    AddressLayout: TLayout;
+    AddressLabel: TLabel;
+    AddressEdit: TEdit;
+    TransactionsPath: TPath;
+    QRPath: TPath;
+    ConnectionStateLabel: TLabel;
+    Line: TLine;
+    TransactionsLabel: TLabel;
+    MyAddressLabel: TLabel;
+    TransactionsLayout: TLayout;
+    MyAddressLayout: TLayout;
+    TokensListBox: TListBox;
+    TokensShadowEffect: TShadowEffect;
+    procedure TransactionsLayoutClick(Sender: TObject);
+    procedure MyAddressLayoutClick(Sender: TObject);
+    procedure GoTransRectangleClick(Sender: TObject);
+    procedure TokenEditMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure TokenEditMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure ArrowColorAnimationFinish(Sender: TObject);
+    procedure TokensListBoxChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure OnApplyStyleTokenItem(Sender: TObject);
+    procedure OnTokenItemResized(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure ArrowPathClick(Sender: TObject);
+    procedure TokenEditKeyUp(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
+  private
+    Tokens: TArray<TTokenBalance>;  //Это нужно для хранения и постоянной подгрузки информации о балансе токенов
+    Index: integer;                                //во время прокрутки листбокса
+    procedure AddToken(const AName: String; ABalance: Double);
+    procedure SetBalances(AArgs: TArray<string>);
+    procedure UpdateBalances;
+  public
+    Handler: IBaseHandler;
+    { Public declarations }
+  end;
+
+var
+  NewTransactionForm: TNewTransactionForm;
+
+implementation
+
+{$R *.fmx}
+
+procedure TNewTransactionForm.AddToken(const AName: String; ABalance: Double);
+var
+  Item: TListBoxItem;
+  TB: TTokenBalance;
+  Txt: TText;
+begin
+  TB.Name := AName;
+  TB.Balance := ABalance;
+  Tokens := Tokens + [TB];
+
+  Item := TListBoxItem.Create(TokensListBox);
+  with Item do
+  begin
+    Name := 'ListItem' + TokensListBox.Items.Count.ToString;
+    StyleLookup := 'ListBoxItemTokenStyle';
+    Item.Tag := TokensListBox.Items.Count;
+    Item.Height := TokensListBox.ItemHeight;
+    if not (TokensListBox.Items.Count = 0) then
+    begin
+      Margins.Top := 4;
+      TokensListBox.ListItems[TokensListBox.Items.Count - 1].Margins.Bottom := 4;
+    end;
+
+    OnResized := OnTokenItemResized;
+    OnApplyStyleLookup := OnApplyStyleTokenItem;
+    StyledSettings := [TStyledSetting.Family,TStyledSetting.Size,TStyledSetting.Style,
+      TStyledSetting.FontColor,TStyledSetting.Other];
+    TextSettings.FontColor := $FF8B8CA7;
+
+    TokensListBox.AddObject(Item);
+    Item.NeedStyleLookup;
+    Item.ApplyStyleLookup;
+
+    Txt := TText.Create(nil);
+//    Txt := TText(Item.FindStyleResource('text'));
+    Txt.Text := AName;
+
+//    Txt := TText(Item.FindStyleResource('balancetext'));
+    Txt.Text := ABalance.ToString;
+  end;
+end;
+
+procedure TNewTransactionForm.ArrowColorAnimationFinish(Sender: TObject);
+begin
+  if ArrowColorAnimation.Inverse then
+    ArrowPath.Fill.Color := ArrowColorAnimation.StartValue
+  else
+    ArrowPath.Fill.Color := ArrowColorAnimation.StopValue;
+  ArrowColorAnimation.Inverse := False;
+end;
+
+procedure TNewTransactionForm.ArrowPathClick(Sender: TObject);
+begin
+  if TokensListBox.Items.Count > 0 then
+  begin
+    TokensListBox.Height := Min(250, TokensListBox.Items.Count * (TokensListBox.ItemHeight + 8) + 28);
+    TokensListBox.Visible := not TokensListBox.Visible;
+  end;
+end;
+
+procedure TNewTransactionForm.FormCreate(Sender: TObject);
+begin
+  Notifyer.Subscribe(UpdateBalances,nOnAcceptTransfers);
+  SetLength(Tokens,0);
+end;
+
+procedure TNewTransactionForm.FormDestroy(Sender: TObject);
+begin
+  SetLength(Tokens,0);
+end;
+
+procedure TNewTransactionForm.FormShow(Sender: TObject);
+begin
+  Index :=0;
+  BalanceLabel.Visible := False;
+  TokensListBox.BeginUpdate;
+  TokensListBox.Clear;
+  TokensListBox.EndUpdate;
+  AppCore.GetHandler.HandleGUICommand(CMD_GUI_GET_BALANCES,[],SetBalances);
+//  TokensListBox.BeginUpdate;
+//  AddToken('ORBC',0.44);
+//  AddToken('RTRT',15235);
+//  AddToken('OM',0.006464);
+//  AddToken('TGU',0.1234);
+//  AddToken('COIN',57654);
+//  AddToken('TGU',0.1234);
+//  AddToken('COIN',57654);
+//  TokensListBox.EndUpdate;
+end;
+
+
+
+procedure TNewTransactionForm.GoTransRectangleClick(Sender: TObject);
+begin
+  AppCore.GetHandler.HandleGUICommand(CMD_GUI_CREATE_TRANSFER,[AddressEdit.Text,TokenEdit.Text],SetBalances);
+end;
+
+procedure TNewTransactionForm.MyAddressLayoutClick(Sender: TObject);
+begin
+//Нажатие на кнопку "Мой адрес"
+end;
+
+procedure TNewTransactionForm.TokenEditKeyUp(Sender: TObject;
+  var Key: Word; var KeyChar: Char; Shift: TShiftState);
+begin
+  if StrToFloat(TokenEdit.Text)>Tokens[TokensListBox.ListItems[TokensListBox.ItemIndex].Tag].Balance then
+  TokenEdit.Text := Tokens[TokensListBox.ListItems[TokensListBox.ItemIndex].Tag].Balance.ToString;
+end;
+
+procedure TNewTransactionForm.TokenEditMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+begin
+  ArrowColorAnimation.Start;
+end;
+
+procedure TNewTransactionForm.TokenEditMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+begin
+  ArrowColorAnimation.Inverse := True;
+  ArrowColorAnimation.Start;
+end;
+
+procedure TNewTransactionForm.TokensListBoxChange(Sender: TObject);
+begin
+  TokenNameLabel.Text := TokensListBox.Items[TokensListBox.ItemIndex];
+  TokenValueLabel.Text := Tokens[TokensListBox.ListItems[TokensListBox.ItemIndex].Tag].Balance.ToString;
+  BalanceLabel.Text := 'Balance: '+TokensListBox.Items[TokensListBox.ItemIndex] +' '+Tokens[TokensListBox.ListItems[TokensListBox.ItemIndex].Tag].Balance.ToString;
+  TokensListBox.Visible := False;
+  BalanceLabel.Visible := True;
+  Index := TokensListBox.ItemIndex;
+end;
+
+procedure TNewTransactionForm.OnApplyStyleTokenItem(Sender: TObject);
+var
+  Item: TListBoxItem;
+  TB: TTokenBalance;
+  Txt: TText;
+begin
+
+  Item := Sender as TListBoxItem;
+  TB := Tokens[Item.Tag];
+
+  Item.Text := TB.Name;
+//  TText(Item.FindStyleResource('balancetext')).Text := TB.Balance.ToString;
+
+  if Item.FindStyleResource('text',Txt) then
+  begin
+    Txt.AutoSize := True;
+    Txt.AutoSize := False;
+  end;
+end;
+
+procedure TNewTransactionForm.OnTokenItemResized(Sender: TObject);
+var
+  Item: TListBoxItem;
+  TB: TTokenBalance;
+  Txt: Ttext;
+begin
+  Item:=Sender as TListBoxItem;
+  TB := Tokens[Item.Tag];
+
+  if Item.FindStyleResource('text',Txt) then
+  begin
+    Txt.AutoSize := True;
+    Txt.AutoSize := False;
+  end;
+end;
+
+procedure TNewTransactionForm.SetBalances(AArgs: TArray<string>);
+var
+  counter: integer;
+  Symbol: string;
+  Value: real;
+begin
+  counter := 0;
+  TokensListBox.BeginUpdate;
+  tokens := [];
+  if Length(AArgs)>0 then
+  begin
+    while counter < length(AArgs) do
+    begin
+      Symbol := AArgs[counter];
+      inc(counter);
+      Value := StrToFloat(AArgs[counter]);
+      inc(counter);
+      AddToken(Symbol,Value);
+    end;
+  end
+  else
+  begin
+    AddToken('ORBC',0);
+  end;
+  TokensListBox.EndUpdate;
+  TokensListBox.ItemIndex := Index;
+  BalanceLabel.Text := 'Balance: '+TokensListBox.Items[TokensListBox.ItemIndex] +' '+Tokens[TokensListBox.ListItems[TokensListBox.ItemIndex].Tag].Balance.ToString;
+end;
+
+procedure TNewTransactionForm.TransactionsLayoutClick(Sender: TObject);
+begin
+//Нажатие на кнопку "Транзакции"
+end;
+
+procedure TNewTransactionForm.UpdateBalances;
+begin
+  TokensListBox.BeginUpdate;
+  TokensListBox.Clear;
+  TokensListBox.EndUpdate;
+  AppCore.GetHandler.HandleGUICommand(CMD_GUI_GET_BALANCES,[],SetBalances);
+end;
+
+end.

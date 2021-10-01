@@ -1,0 +1,243 @@
+object TransactionInfoForm: TTransactionInfoForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Orbis node'
+  ClientHeight = 658
+  ClientWidth = 451
+  Fill.Kind = Solid
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 0
+  object Line: TLine
+    LineType = Bottom
+    Position.X = 24.000000000000000000
+    Position.Y = 585.000000000000000000
+    Size.Width = 403.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFF2F2F2
+  end
+  object TransactionInfoLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 42.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = #1058#1088#1072#1085#1079#1072#1082#1094#1080#1103
+    TabOrder = 0
+  end
+  object DateTimeLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = [Style]
+    Position.Y = 116.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF525A64
+    TextSettings.HorzAlign = Center
+    Text = ' 09:25 '#1089#1088#1077#1076#1072', 26 '#1084#1072#1103' 2021 '#1075'.'
+    TabOrder = 14
+  end
+  object TransInfoLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = [Style]
+    Position.Y = 149.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 18.000000000000000000
+    TextSettings.FontColor = xFF41BE06
+    TextSettings.HorzAlign = Center
+    Text = '+100 ORBC'
+    TabOrder = 3
+  end
+  object FromLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 190.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.StyleExt = {04040000000000000004000000}
+    TextSettings.FontColor = xFF94AFB6
+    TextSettings.HorzAlign = Center
+    Text = #1054#1090
+    TabOrder = 12
+  end
+  object FromValueLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 212.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.Font.StyleExt = {04040000000000000004000000}
+    TextSettings.FontColor = xFF525A64
+    TextSettings.HorzAlign = Center
+    Text = 'h5NWUacEjDFUHPVei6PXVbdFkEHVJUdo'
+    TabOrder = 13
+  end
+  object ToLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 240.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.StyleExt = {04040000000000000004000000}
+    TextSettings.FontColor = xFF94AFB6
+    TextSettings.HorzAlign = Center
+    Text = #1050#1086#1084#1091
+    TabOrder = 7
+  end
+  object ToValueLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 262.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.Font.StyleExt = {04040000000000000004000000}
+    TextSettings.FontColor = xFF525A64
+    TextSettings.HorzAlign = Center
+    Text = 'h5NWUacEjDFUHPVei6PXVbdFkEHVJUdo'
+    TabOrder = 11
+  end
+  object HashLabel: TLabel
+    AutoSize = True
+    StyledSettings = []
+    Position.X = 69.000000000000000000
+    Position.Y = 308.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = 'HASH:'
+    TabOrder = 10
+  end
+  object HashValueLabel: TLabel
+    AutoSize = True
+    StyledSettings = []
+    Position.X = 69.000000000000000000
+    Position.Y = 328.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF525A64
+    Text = '5c8d00ec5b062910b92d8d5f932c3f20b2cf6212baf'
+    TabOrder = 6
+  end
+  object Line1: TLine
+    LineType = Bottom
+    Position.X = 69.000000000000000000
+    Position.Y = 353.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFF94AFB6
+    Stroke.Cap = Round
+    Stroke.Dash = Dot
+  end
+  object VolumeLabel: TLabel
+    AutoSize = True
+    StyledSettings = []
+    Position.X = 69.000000000000000000
+    Position.Y = 363.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = #1057#1091#1084#1084#1072':'
+    TabOrder = 9
+  end
+  object VolumeValueLabel: TLabel
+    AutoSize = True
+    StyledSettings = []
+    Position.X = 69.000000000000000000
+    Position.Y = 383.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF525A64
+    Text = '100 ORBC'
+    TabOrder = 5
+  end
+  object Line2: TLine
+    LineType = Bottom
+    Position.X = 69.000000000000000000
+    Position.Y = 408.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFF94AFB6
+    Stroke.Cap = Round
+    Stroke.Dash = Dot
+  end
+  object Line3: TLine
+    LineType = Bottom
+    Position.X = 69.000000000000000000
+    Position.Y = 463.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFF94AFB6
+    Stroke.Cap = Round
+    Stroke.Dash = Dot
+  end
+  object ComissionLabel: TLabel
+    AutoSize = True
+    StyledSettings = []
+    Position.X = 69.000000000000000000
+    Position.Y = 418.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = #1050#1086#1084#1080#1089#1089#1080#1103':'
+    TabOrder = 8
+  end
+  object ComissionValueLabel: TLabel
+    AutoSize = True
+    StyledSettings = []
+    Position.X = 69.000000000000000000
+    Position.Y = 438.000000000000000000
+    Size.Width = 316.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF525A64
+    Text = '0%'
+    TabOrder = 4
+  end
+end

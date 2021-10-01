@@ -1,0 +1,64 @@
+unit BlockChain.Quorum;
+
+interface
+uses
+  System.Classes,
+  System.IOUtils,
+  System.SysUtils,
+  System.Hash,
+  System.DateUtils,
+  App.Types,
+  Wallet.Types,
+  BlockChain.BaseBlock,
+  BlockChain.BaseChain,
+  BlockChain.Types,
+  BlockChain.FileHandler,
+  Crypto.RSA;
+
+const
+  LastVersionQuorum = 0;
+
+type
+  TQuorumInfoV0 = packed record
+    RequestID: uint64;
+    VoterID: uint64;
+    class operator Implicit(Buf: TQuorumInfoV0): TBytes;
+    class operator Implicit(Buf: TBytes): TQuorumInfoV0;
+    class operator Add(buf1: TBytes; buf2: TQuorumInfoV0): TBytes;
+    class operator Add(buf2: TQuorumInfoV0; buf1: TBytes): TBytes;
+    function GetSize: uint64;
+  end;
+
+  TQuorumTrxV0 = packed record // 192
+    VoteRequestInfo: TQuorumInfoV0; // 128
+    OwnerSign: TSignedHash; // 64
+    function GetSize: uint64;
+    class operator Implicit(Buf: TQuorumTrxV0): TBytes;
+    class operator Implicit(Buf: TBytes): TQuorumTrxV0;
+    class operator Add(buf1: TBytes; buf2: TQuorumTrxV0): TBytes;
+    class operator Add(buf2: TQuorumTrxV0; buf1: TBytes): TBytes;
+    procedure SignTrx(Wallet: TWallet);
+  end;
+
+  TQuorumBlockV0 = class(TBaseBlock)
+  protected
+    QuorumInfo: TQuorumTrxV0;
+  public
+    class function GenerateInitBlock: TBytes; static;
+    function GetSizeBlock: uint64; override;
+    function GetTrxData: TBytes;
+    function GetData: TBytes; override;
+    function GetDataWithoutHeader: TBytes; override;
+    procedure SetData(const AData: TBytes); override;
+    constructor Create(AQuorumTrx: TQuorumTrxV0; LastBlockHash: THash); overload;
+    constructor Create; overload;
+  end;
+
+  TQuorumChain = class(TBaseChain)
+  public
+    function GetBlock(Ind: uint64): TBaseBlock; override;
+    procedure AddToFastIndex(AData: TBytes); override;
+  end;
+implementation
+
+end.

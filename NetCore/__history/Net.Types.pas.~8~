@@ -1,0 +1,10 @@
+unit Net.Types;
+
+interface
+const
+  LABNETPORT = 30000;
+  TESTNETPORT = 30000;
+  MAINNETPORT = 30000;
+implementation
+
+end.

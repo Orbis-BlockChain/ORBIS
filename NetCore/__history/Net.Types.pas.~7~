@@ -1,0 +1,10 @@
+unit Net.Types;
+
+interface
+
+type
+  TIP = array [0..3] of byte;
+
+implementation
+
+end.

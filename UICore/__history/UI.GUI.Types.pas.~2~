@@ -1,0 +1,10 @@
+unit UI.GUI.Types;
+
+interface
+
+type
+  TForms = (fRegestrattion, fLogin );
+
+implementation
+
+end.

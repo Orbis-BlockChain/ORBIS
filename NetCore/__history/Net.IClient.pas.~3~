@@ -1,0 +1,10 @@
+unit Net.IClient;
+
+interface
+type
+  IClient =interface
+
+  end;
+implementation
+
+end.
