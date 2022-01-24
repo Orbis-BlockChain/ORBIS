@@ -1,0 +1,72 @@
+object ToastForm: TToastForm
+  Left = 0
+  Top = 0
+  BorderStyle = None
+  Caption = 'Form1'
+  ClientHeight = 58
+  ClientWidth = 181
+  Padding.Left = 10.000000000000000000
+  Padding.Top = 5.000000000000000000
+  Padding.Right = 10.000000000000000000
+  Padding.Bottom = 5.000000000000000000
+  Transparency = True
+  FormStyle = Popup
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnClose = FormClose
+  OnMouseDown = FormMouseDown
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object Rectangle1: TRectangle
+    Align = Client
+    Fill.Color = claWhite
+    HitTest = False
+    Size.Width = 161.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    Stroke.Thickness = 0.000000000000000000
+    XRadius = 8.000000000000000000
+    YRadius = 8.000000000000000000
+    object FloatAnimation1: TFloatAnimation
+      Duration = 0.200000002980232200
+      OnFinish = FloatAnimation1Finish
+      PropertyName = 'Opacity'
+      StartValue = 0.000000000000000000
+      StopValue = 1.000000000000000000
+    end
+    object Text1: TText
+      Align = Center
+      AutoSize = True
+      HitTest = False
+      Size.Width = 61.780925750732420000
+      Size.Height = 16.802734375000000000
+      Size.PlatformDefault = False
+      Text = 'Message'
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.FontColor = xFF8B8CA7
+      TextSettings.WordWrap = False
+    end
+    object ShadowEffect1: TShadowEffect
+      Distance = 2.000000000000000000
+      Direction = 45.000000000000000000
+      Softness = 0.200000002980232200
+      Opacity = 0.400000005960464500
+      ShadowColor = claBlack
+      object FloatAnimation2: TFloatAnimation
+        Duration = 0.200000002980232200
+        PropertyName = 'Opacity'
+        StartValue = 0.000000000000000000
+        StopValue = 0.500000000000000000
+      end
+    end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 136
+    Top = 16
+  end
+end

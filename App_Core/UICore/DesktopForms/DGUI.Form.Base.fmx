@@ -1,0 +1,59 @@
+object BaseForm: TBaseForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Lite node'
+  ClientHeight = 658
+  ClientWidth = 451
+  Fill.Kind = Solid
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnPaint = FormPaint
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object NetLayout: TLayout
+    Align = MostBottom
+    Position.Y = 585.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 73.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object InnerNetLayout: TLayout
+      Align = HorzCenter
+      Position.X = 105.000000000000000000
+      Size.Width = 241.000000000000000000
+      Size.Height = 73.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      object NetText1: TText
+        Align = MostLeft
+        HitTest = False
+        Size.Width = 171.955734252929700000
+        Size.Height = 73.000000000000000000
+        Size.PlatformDefault = False
+        Text = #1057#1086#1077#1076#1080#1085#1077#1085#1080#1077' '#1091#1089#1090#1072#1085#1086#1074#1083#1077#1085#1086
+        TextSettings.Font.Family = 'Roboto'
+        TextSettings.Font.Size = 14.000000000000000000
+        TextSettings.FontColor = xFF8B8CA7
+        TextSettings.WordWrap = False
+      end
+      object NetText2: TText
+        Align = Left
+        HitTest = False
+        Position.X = 171.955734252929700000
+        Size.Width = 69.000000000000000000
+        Size.Height = 73.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Main.net'
+        TextSettings.Font.Family = 'Roboto'
+        TextSettings.Font.Size = 14.000000000000000000
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+        TextSettings.FontColor = xFF9B51E0
+        TextSettings.WordWrap = False
+      end
+    end
+  end
+end

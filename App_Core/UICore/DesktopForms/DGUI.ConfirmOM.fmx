@@ -1,0 +1,176 @@
+object ConfirmOMForm: TConfirmOMForm
+  Left = 0
+  Top = 0
+  BorderStyle = Single
+  Caption = 'Orbis node'
+  ClientHeight = 658
+  ClientWidth = 451
+  Fill.Kind = Solid
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object MyAddressLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 42.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = #1043#1077#1085#1077#1088#1072#1094#1080#1103' ORBIS MINING'
+    TabOrder = 4
+  end
+  object AmountLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 81.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = 'Amount ORBC'
+    TabOrder = 2
+  end
+  object AmountORBCLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 116.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 44.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 36.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = '10 000 ORBC'
+    TabOrder = 3
+  end
+  object GoConfirmRectangle: TRectangle
+    Cursor = crHandPoint
+    Fill.Color = xFF9B51E0
+    Position.X = 24.000000000000000000
+    Position.Y = 413.000000000000000000
+    Size.Width = 403.000000000000000000
+    Size.Height = 56.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 16.000000000000000000
+    YRadius = 16.000000000000000000
+    OnClick = GoConfirmRectangleClick
+    object GoConfirmLabel: TLabel
+      Align = Client
+      StyledSettings = []
+      Size.Width = 403.000000000000000000
+      Size.Height = 56.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = #1055#1086#1076#1090#1074#1077#1088#1076#1080#1090#1100
+      TabOrder = 0
+    end
+  end
+  object CancelRectangle: TRectangle
+    Cursor = crHandPoint
+    Fill.Color = xFFBDBDBD
+    Position.X = 24.000000000000000000
+    Position.Y = 480.000000000000000000
+    Sides = [Bottom]
+    Size.Width = 403.000000000000000000
+    Size.Height = 56.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFF2F2F2
+    XRadius = 16.000000000000000000
+    YRadius = 16.000000000000000000
+    OnClick = CancelRectangleClick
+    OnMouseEnter = CancelRectangleMouseEnter
+    OnMouseLeave = CancelRectangleMouseLeave
+    object CancelLabel: TLabel
+      Align = Client
+      Cursor = crHandPoint
+      StyledSettings = []
+      Size.Width = 403.000000000000000000
+      Size.Height = 56.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = #1054#1090#1084#1077#1085#1080#1090#1100
+      TabOrder = 0
+    end
+  end
+  object Line: TLine
+    LineType = Bottom
+    Position.X = 24.000000000000000000
+    Position.Y = 585.000000000000000000
+    Size.Width = 403.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFF2F2F2
+  end
+  object CautionLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = [Style]
+    Position.Y = 320.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.FontColor = xFFE24646
+    TextSettings.HorzAlign = Center
+    Text = #1069#1090#1091' '#1086#1087#1077#1088#1072#1094#1080#1102' '#1073#1091#1076#1077#1090' '#1085#1077#1074#1086#1079#1084#1086#1078#1085#1086' '#1086#1090#1084#1077#1085#1080#1090#1100
+    TabOrder = 6
+  end
+  object Label1: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 185.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 17.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = 'Amount OM'
+    TabOrder = 0
+  end
+  object AmountOMLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 220.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 44.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 36.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = '1 OM'
+    TabOrder = 1
+  end
+end

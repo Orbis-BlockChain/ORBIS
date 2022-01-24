@@ -1,0 +1,164 @@
+object ValidationConfirmForm: TValidationConfirmForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Orbis Node'
+  ClientHeight = 658
+  ClientWidth = 451
+  Fill.Kind = Solid
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnClose = FormClose
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object InfoLabel: TLabel
+    Align = Horizontal
+    StyledSettings = [Style]
+    Position.Y = 536.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 24.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    TabOrder = 5
+  end
+  object Line: TLine
+    LineType = Bottom
+    Position.X = 24.000000000000000000
+    Position.Y = 585.000000000000000000
+    Size.Width = 403.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFF2F2F2
+  end
+  object ProgressLayout: TLayout
+    Align = Center
+    Margins.Bottom = 200.000000000000000000
+    Size.Width = 190.000000000000000000
+    Size.Height = 190.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    object ProgressArc: TArc
+      Align = Client
+      Size.Width = 190.000000000000000000
+      Size.Height = 190.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Color = xFF7346D2
+      Stroke.Thickness = 7.000000000000000000
+      EndAngle = 300.000000000000000000
+      object ArcFloatAnimation: TFloatAnimation
+        Duration = 1.500000000000000000
+        Loop = True
+        PropertyName = 'RotationAngle'
+        StartValue = 0.000000000000000000
+        StopValue = 359.000000000000000000
+      end
+    end
+    object ProgressLabel: TLabel
+      Align = Client
+      StyledSettings = []
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Size.Width = 170.000000000000000000
+      Size.Height = 170.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 60.000000000000000000
+      TextSettings.FontColor = xFF7346D2
+      TextSettings.HorzAlign = Center
+      Text = '0%'
+      TabOrder = 1
+    end
+  end
+  object InfoText1: TText
+    Align = Horizontal
+    AutoSize = True
+    HitTest = False
+    Position.Y = 350.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 16.802734375000000000
+    Size.PlatformDefault = False
+    Text = #1057#1086#1077#1076#1080#1085#1077#1085#1080#1077' '#1091#1089#1090#1072#1085#1086#1074#1083#1077#1085#1086
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.WordWrap = False
+  end
+  object InfoText2: TText
+    Align = Horizontal
+    AutoSize = True
+    HitTest = False
+    Position.Y = 390.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 16.802734375000000000
+    Size.PlatformDefault = False
+    Text = #1055#1088#1086#1074#1077#1088#1082#1072' '#1087#1086#1088#1090#1086#1074' TCP 30100'
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.WordWrap = False
+  end
+  object CancelRectangle: TRectangle
+    Cursor = crHandPoint
+    Fill.Color = xFF8B8CA7
+    Position.X = 150.000000000000000000
+    Position.Y = 490.000000000000000000
+    Sides = [Bottom]
+    Size.Width = 150.000000000000000000
+    Size.Height = 40.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFF2F2F2
+    XRadius = 16.000000000000000000
+    YRadius = 16.000000000000000000
+    object CancelLabel: TLabel
+      Align = Client
+      Cursor = crHandPoint
+      StyledSettings = []
+      Size.Width = 150.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = #1054#1090#1084#1077#1085#1072
+      TabOrder = 0
+    end
+  end
+  object OkRectangle: TRectangle
+    Cursor = crHandPoint
+    Fill.Color = xFF9B51E0
+    Position.X = 150.000000000000000000
+    Position.Y = 440.000000000000000000
+    Size.Width = 150.000000000000000000
+    Size.Height = 40.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 16.000000000000000000
+    YRadius = 16.000000000000000000
+    object OkLabel: TLabel
+      Align = Client
+      StyledSettings = []
+      Size.Width = 150.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = 'OK'
+      TabOrder = 0
+    end
+  end
+end
