@@ -1,0 +1,61 @@
+unit WebServer.HTTPTypes;
+
+interface
+
+const
+  NL = #13#10;
+  RHCount = 5;
+  BASE_URI = '/api/';
+  WALLET_ADDRESS_LENGTH = 40;
+
+  INCORRECT_REQUEST_CODE = -1;
+  UNKNOWN_METHOD_CODE = -2;
+  UNSUPPORTED_HTTP_VERSION_CODE = -3;
+  NOT_FOUND_CODE = -4;
+
+  ERR_BAD_REQUEST = '400 Bad Request';
+  ERR_IM_A_TEAPOT = '418 I''m a Teapot';
+  ERR_NOT_FOUND = '404 Not Found';
+  REQUEST_OK = '200 OK';
+
+type
+
+  TTokenType = (USDR, RBTC, GTN);
+
+  TTokenBalanceInfo = record
+    Token: TTokenType;
+    Balance: Double;
+    Sent: Double;
+    Received: Double;
+    TransCount: Integer;
+  end;
+
+  TAccountInfoUpd = record
+//    AccInfoV0: TAccountInfoV0;
+    Id: Integer;
+    PubKey: String;
+    Address: String;
+    Time: TDateTime;
+    RegDate: TDateTime;
+    Money: array of TTokenBalanceInfo;
+  end;
+
+  TTransactionsInfo = record
+    Time: TDateTime;
+    BlockNum: Integer;
+    FFrom: String;
+    FTo: String;
+    Hash: String;
+    Token: TTokenType;
+    Amount: Double;
+  end;
+
+  TPosition = record
+    Pos: Integer;
+    Len: Integer;
+  end;
+
+implementation
+
+
+end.

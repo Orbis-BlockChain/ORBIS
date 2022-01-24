@@ -1,0 +1,200 @@
+unit DGUI.Form.LogIn;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Classes,
+  System.Variants,
+  System.StrUtils,
+  System.Generics.Collections,
+  App.Globals,
+  App.Types,
+  App.Notifyer,
+  App.Meta,
+  App.IHandlerCore,
+  UI.Types,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Dialogs,
+  FMX.Objects,
+  FMX.Layouts,
+  FMX.Controls.Presentation,
+  FMX.StdCtrls,
+  FMX.Ani,
+  FMX.Edit,
+  DGUI.Form.Resources,
+  FMX.ComboEdit,
+  FMX.ListBox, FMX.Effects;
+
+type
+  TLogInForm = class(TForm)
+    LogoLayout: TLayout;
+    OrbisLogoPath2: TPath;
+    OrbisLogoPath1: TPath;
+    OrbisLogoPath3: TPath;
+    HeadLabel: TLabel;
+    LogInRectangle: TRectangle;
+    LogInLabel: TLabel;
+    TextColorAnimation: TColorAnimation;
+    LogInColorAnimation: TColorAnimation;
+    GoRegRectangle: TRectangle;
+    GoRegLabel: TLabel;
+    EnterPassLayout: TLayout;
+    EnterPassLabel: TLabel;
+    WalletLabel: TLabel;
+    EnterPassEdit: TEdit;
+    WalletComboBox: TComboBox;
+    ListBoxItem1: TListBoxItem;
+    ListBoxItem2: TListBoxItem;
+    ListBoxItem3: TListBoxItem;
+    WalletEdit: TEdit;
+    WalletListBox: TListBox;
+    WalletShadowEffect: TShadowEffect;
+    ListBoxItem5: TListBoxItem;
+    ListBoxItem6: TListBoxItem;
+    ArrowPath: TPath;
+    ArrowColorAnimation: TColorAnimation;
+    Line: TLine;
+    ListBoxItem4: TListBoxItem;
+    procedure EditChangeTracking(Sender: TObject);
+    procedure LogInColorAnimationFinish(Sender: TObject);
+    procedure TextColorAnimationFinish(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure LogInRectangleClick(Sender: TObject);
+    procedure WalletEditClick(Sender: TObject);
+    procedure WalletListBoxChange(Sender: TObject);
+    procedure WalletEditMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure WalletEditMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure ArrowColorAnimationFinish(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure GoRegRectangleClick(Sender: TObject);
+  private
+    GoAnimation: Boolean;
+    procedure SetWallets(AArgs: TArray<string>);
+    procedure TryOpenWallet(AArgs: TArray<string>);
+  public
+    Handler: IBaseHandler;
+    { Public declarations }
+  end;
+
+var
+  LogInForm: TLogInForm;
+
+implementation
+
+{$R *.fmx}
+
+procedure TLogInForm.ArrowColorAnimationFinish(Sender: TObject);
+begin
+  if ArrowColorAnimation.Inverse then
+    ArrowPath.Fill.Color := ArrowColorAnimation.StartValue
+  else
+    ArrowPath.Fill.Color := ArrowColorAnimation.StopValue;
+  ArrowColorAnimation.Inverse := False;
+end;
+
+procedure TLogInForm.EditChangeTracking(Sender: TObject);
+begin
+  LogInRectangle.HitTest := not (EnterPassEdit.Text.IsEmpty or WalletEdit.Text.IsEmpty);
+  LogInColorAnimation.Inverse := EnterPassEdit.Text.IsEmpty or WalletEdit.Text.IsEmpty;
+  TextColorAnimation.Inverse := LogInColorAnimation.Inverse;
+  LogInColorAnimation.Enabled := LogInColorAnimation.Inverse <> GoAnimation;
+  TextColorAnimation.Enabled := LogInColorAnimation.Enabled;
+  GoAnimation := EnterPassEdit.Text.IsEmpty or WalletEdit.Text.IsEmpty;
+end;
+
+procedure TLogInForm.FormCreate(Sender: TObject);
+begin
+  GoAnimation := True;
+end;
+
+procedure TLogInForm.FormShow(Sender: TObject);
+begin
+  WalletListBox.Clear;
+  AppCore.GetHandler.HandleGUICommand(CMD_CHECK_COUNT_WALLETS,[],SetWallets);
+end;
+
+procedure TLogInForm.GoRegRectangleClick(Sender: TObject);
+begin
+  AppCore.ShowForm(ord(fRegestrattion),[]);
+end;
+
+procedure TLogInForm.LogInColorAnimationFinish(Sender: TObject);
+begin
+  if LogInColorAnimation.Inverse then
+    GoRegRectangle.Fill.Color := LogInColorAnimation.StartValue
+  else
+    GoRegRectangle.Fill.Color := LogInColorAnimation.StopValue;
+  LogInColorAnimation.Enabled := False;
+end;
+
+procedure TLogInForm.LogInRectangleClick(Sender: TObject);
+begin
+  if (Length(Trim(WalletEdit.Text))>0)and(Length(Trim(EnterPassEdit.Text))>0) then
+    AppCore.GetHandler.HandleGUICommand(CMD_GUI_OPEN_WALLET,[WalletEdit.Text,EnterPassEdit.Text],TryOpenWallet);
+end;
+
+procedure TLogInForm.SetWallets(AArgs: TArray<string>);
+var
+  buf: TArray<string>;
+begin
+  if Length(Trim(aargs[0]))>0 then
+    buf := SplitString(AArgs[0],#13#10);
+  for var item in buf do
+    if length(trim(item))>0 then
+    begin
+      var listboxitem := TListBoxItem.Create(WalletListBox);
+      listboxitem.Text := trim(item);
+      WalletListBox.AddObject(listboxitem);
+    end;
+end;
+
+procedure TLogInForm.TextColorAnimationFinish(Sender: TObject);
+begin
+  if TextColorAnimation.Inverse then
+    LogInLabel.TextSettings.FontColor := TextColorAnimation.StartValue
+  else
+    LogInLabel.TextSettings.FontColor := TextColorAnimation.StopValue;
+  TextColorAnimation.Enabled := False;
+end;
+
+procedure TLogInForm.TryOpenWallet(AArgs: TArray<string>);
+begin
+  if AArgs[0] = 'OK' then
+    AppCore.ShowForm(ord(fNewTransaction),[])
+  else
+    ShowMessage('Bad Login or Password. Try Again.');
+end;
+
+procedure TLogInForm.WalletEditClick(Sender: TObject);
+begin
+  WalletListBox.Visible := not WalletListBox.Visible;
+end;
+
+procedure TLogInForm.WalletEditMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
+begin
+  ArrowColorAnimation.Start;
+end;
+
+procedure TLogInForm.WalletEditMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
+begin
+  ArrowColorAnimation.Inverse := True;
+  ArrowColorAnimation.Start;
+end;
+
+procedure TLogInForm.WalletListBoxChange(Sender: TObject);
+begin
+  WalletEdit.Text := WalletListBox.Items[WalletListBox.ItemIndex];
+  WalletListBox.Visible := False;
+end;
+
+end.

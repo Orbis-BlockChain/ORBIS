@@ -1,0 +1,61 @@
+unit Net.HandlerCore;
+
+interface
+uses
+  System.SysUtils,
+  Net.IHandlerCore,
+  BlockChain.Core,
+  App.Abstractions;
+
+type
+  TNetHandlerCore = class(TInterfacedObject,IBaseHandler)
+  private
+    FBlockChain: TBlockChainCore;
+    UI: TBaseUI;
+  public
+    procedure HandleReceiveData(const ABytes: TBytes);
+    procedure HandleCommand(Command: Byte);
+    procedure HandleConnectClient(ClientName: String);
+    procedure HandleDisconnectClient(ClientName: String);
+    constructor Create(ABlockChain:TBlockChainCore; AUI: TBaseUI);
+    destructor Destroy; override;
+  end;
+implementation
+
+{ TNetHandlerCore }
+
+constructor TNetHandlerCore.Create(ABlockChain: TBlockChainCore; AUI: TBaseUI);
+begin
+  UI := AUI;
+  FBlockChain := ABlockChain;
+end;
+
+destructor TNetHandlerCore.Destroy;
+begin
+  FBlockChain := nil;
+  inherited;
+end;
+
+procedure TNetHandlerCore.HandleConnectClient(ClientName: String);
+begin
+//
+end;
+
+procedure TNetHandlerCore.HandleDisconnectClient(ClientName: String);
+begin
+//
+end;
+
+procedure TNetHandlerCore.HandleReceiveData(const ABytes: TBytes);
+var
+  typeData: byte;
+begin
+  case typeData of
+    0:begin
+
+      end;
+  end;
+
+end;
+
+end.

@@ -1,0 +1,64 @@
+unit UI.Abstractions;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Classes,
+  UI.GUI.FormsConrol,
+  UI.GUI.Types,
+  App.IHandlerCore;
+
+type
+  TBaseUI = class abstract
+  private
+    procedure EmptyProc;
+    procedure EmtyProcStr(str: string);
+    procedure EmtyProcByteStr(atype: byte; str: string);
+  protected
+    FShowForm: TProc<Byte, TArray<string>>;
+    FShowMessage: TProc<string>;
+    FHandler: IBaseHandler;
+    FForms: TFormsControl;
+  public
+    property ShowMessage: TProc<string> read FShowMessage write FShowMessage;
+    property Handler: IBaseHandler read FHandler write FHandler;
+    property ShowForm: TProc<Byte, TArray<string>> read FShowForm write FShowForm;
+    procedure ShutDown(const Msg: string = ''); virtual; abstract;
+    procedure DoRun; virtual; abstract;
+    procedure DoTerminate; virtual; abstract;
+    constructor Create; virtual;
+    destructor Destroy; virtual;
+  end;
+
+implementation
+
+{ TBaseUI }
+
+constructor TBaseUI.Create;
+begin
+  ShowMessage := EmtyProcStr;
+  ShowForm := EmtyProcByteStr;
+end;
+
+destructor TBaseUI.Destroy;
+begin
+  FShowMessage := nil;
+end;
+
+procedure TBaseUI.EmptyProc;
+begin
+
+end;
+
+procedure TBaseUI.EmtyProcByteStr(atype: byte; str: string);
+begin
+
+end;
+
+procedure TBaseUI.EmtyProcStr(str: string);
+begin
+
+end;
+
+end.

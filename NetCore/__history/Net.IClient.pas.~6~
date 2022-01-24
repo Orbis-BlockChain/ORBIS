@@ -1,0 +1,15 @@
+unit Net.IClient;
+
+interface
+
+uses
+  System.SysUtils;
+
+type
+  IClient = interface
+    function SendMessage(const AData: TBytes): integer;
+  end;
+
+implementation
+
+end.

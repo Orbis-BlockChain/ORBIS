@@ -1,0 +1,84 @@
+unit DGUI.ConfirmTransaction;
+
+interface
+
+uses
+  System.SysUtils,
+  System.Types,
+  System.UITypes,
+  System.Classes,
+  System.Variants,
+  App.Globals,
+  UI.Types,
+  UI.Animated,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Dialogs,
+  FMX.Controls.Presentation,
+  FMX.StdCtrls,
+  FMX.Ani,
+  FMX.Objects,
+  UI.GUI.Types;
+
+type
+  TConfirmTransForm = class(TForm)
+    MyAddressLabel: TLabel;
+    ToAddressLabel: TLabel;
+    AddressValueLabel: TLabel;
+    AmountLabel: TLabel;
+    AmountValueLabel: TLabel;
+    CommissionLabel: TLabel;
+    GoConfirmRectangle: TRectangle;
+    GoConfirmLabel: TLabel;
+    CancelRectangle: TRectangle;
+    CancelLabel: TLabel;
+    Line: TLine;
+    ConnectionStateLabel: TLabel;
+    procedure GoConfirmRectangleClick(Sender: TObject);
+    procedure CancelRectangleClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure CancelRectangleMouseEnter(Sender: TObject);
+    procedure CancelRectangleMouseLeave(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  ConfirmTransForm: TConfirmTransForm;
+
+implementation
+
+{$R *.fmx}
+
+procedure TConfirmTransForm.CancelRectangleMouseEnter(Sender: TObject);
+begin
+  CancelRectangle.Fill.Color := CLR_GRAY_SELECTED_TEXT;
+end;
+
+procedure TConfirmTransForm.CancelRectangleMouseLeave(Sender: TObject);
+begin
+  CancelRectangle.Fill.Color := CLR_GRAY_FREE_TEXT;
+end;
+
+procedure TConfirmTransForm.FormCreate(Sender: TObject);
+begin
+  GoConfirmRectangle.OnMouseEnter := TRectAnimations.AnimRectPurpleMouseIn;
+  GoConfirmRectangle.OnMouseLeave := TRectAnimations.AnimRectPurpleMouseOut;
+
+end;
+
+procedure TConfirmTransForm.GoConfirmRectangleClick(Sender: TObject);
+begin
+  //Нажатие на кнопку "Подтвердить"
+end;
+
+procedure TConfirmTransForm.CancelRectangleClick(Sender: TObject);
+begin
+  AppCore.ShowForm(ord(fNewTransaction),[]);
+end;
+
+end.

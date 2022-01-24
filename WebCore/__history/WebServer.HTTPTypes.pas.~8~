@@ -1,0 +1,184 @@
+unit WebServer.HTTPTypes;
+
+interface
+
+uses
+  SysUtils,
+  System.TypInfo,
+  App.Types;
+
+const
+  NL = #13#10;
+  RHCount = 5;
+  BASE_URI = '/api/';
+  WALLET_ADDRESS_LENGTH = 40;
+
+  INCORRECT_REQUEST_CODE = -1;
+  UNKNOWN_METHOD_CODE = -2;
+  UNSUPPORTED_HTTP_VERSION_CODE = -3;
+  NOT_FOUND_CODE = -4;
+
+  ERR_BAD_REQUEST = '400 Bad Request';
+  ERR_IM_A_TEAPOT = '418 I''m a Teapot';
+  ERR_NOT_FOUND = '404 Not Found';
+  REQUEST_OK = '200 OK';
+
+type
+//
+//  TTokenTypes = (A1, A2, A3, A4, A5,
+//                B1, B2, B3, B4, B5,
+//                C1, C2, C3, C4, C5,
+//                D1, D2, D3, D4, D5,
+//                E1, E2, E3, E4, E5,
+//                F1, F2, F3, F4, F5,
+//                G1, G2, G3, G4, G5,
+//                H1, H2, H3, H4, H5,
+//                I1, I2, I3, I4, I5,
+//                J1, J2, J3, J4, J5,
+//                K1, K2, K3, K4, K5,
+//                L1, L2, L3, L4, L5,
+//                M1, M2, M3, M4, M5,
+//                N1, N2, N3, N4, N5,
+//                O1, O2, O3, O4, O5,
+//                P1, P2, P3, P4, P5,
+//                Q1, Q2, Q3, Q4, Q5,
+//                R1, R2, R3, R4, R5,
+//                S1, S2, S3, S4, S5,
+//                T1, T2, T3, T4, T5,
+//                U1, U2, U3, U4, U5,
+//                V1, V2, V3, V4, V5,
+//                W1, W2, W3, W4, W5,
+//                X1, X2, X3, X4, X5,
+//                Y1, Y2, Y3, Y4, Y5,
+//                Z1, Z2, Z3, Z4, Z5);
+
+  TTransType = (Incoming, Outgoing, All);
+  TNetType = (Main, Dev, Test);
+
+  TTokenBalanceInfo = record
+    Token: TSymbol;
+    Balance: Extended;
+    Sent: Extended;
+    Received: Extended;
+    TransCount: Integer;
+  end;
+
+  TAccountInfoUpd = record
+//    AccInfoV0: TAccountInfoV0;
+    Id: Integer;
+    PubKey: String;
+    Address: String;
+    Time: TDateTime;
+    RegDate: TDateTime;
+    Money: array of TTokenBalanceInfo;
+    Transactions: array of Integer;
+  end;
+
+  TTokensInfo = packed record // 128
+    Owner: UINT64;
+    Name: TName;
+    Symbol: TSymbol;
+    Decimals: UINT64;
+    Volume: int64;
+//    TokenType: TTokenTypes;
+    UnixTime: integer;
+    class operator Implicit(Buf: TTokensInfo): TBytes;
+    class operator Implicit(Buf: TBytes): TTokensInfo;
+    class operator Add(buf1: TBytes; buf2: TTokensInfo): TBytes;
+    class operator Add(buf2: TTokensInfo; buf1: TBytes): TBytes;
+    function GetSize: integer;
+  end;
+
+  TTransactionInfo = record
+    Time: TDateTime;
+    BlockNum: Integer;
+    FFrom: String;
+    FTo: String;
+    Hash: String;
+    Token: TSymbol;
+    Sent: Extended;
+    Received: Extended;
+    Fee: Double;
+  end;
+
+  TPosition = record
+    Pos: Integer;
+    Len: Integer;
+  end;
+
+  TStrings = TArray<String>;
+  TAccInfoList = TArray<TAccountInfoUpd>;
+  TTransInfoList = TArray<TTransactionInfo>;
+  TTokensInfoList = TArray<TTokensInfo>;
+
+  function Parse(Arg: String; Delimeter: String = '_'): TStrings;
+  function GetNetByStr(Str: String): TNetType;
+
+implementation
+
+  function Parse(Arg: String; Delimeter: String = '_'): TStrings;
+  var
+    Pos, Ind: Integer;
+  begin
+    Pos := 1;
+    Ind := 1;
+
+    Pos := Arg.ToLower.IndexOf(Delimeter, Ind);
+    while Pos <> -1 do
+    begin
+      Result := Result + [Copy(Arg,Ind,Pos - Ind + 1)];
+      Ind := Pos + 2;
+
+      Inc(Pos);
+      Pos := Arg.ToLower.IndexOf(Delimeter, Pos);
+    end;
+
+    Result := Result + [Copy(Arg,Ind,Length(Arg))];
+  end;
+
+  function GetNetByStr(Str: String): TNetType;
+  begin
+    Result := TNetType(GetEnumValue(TypeInfo(TNetType),Str));
+  end;
+
+{ TTokensInfo }
+
+class operator TTokensInfo.Add(buf2: TTokensInfo; buf1: TBytes): TBytes;
+var
+  LData, RData: TBytes;
+begin
+  RData := buf1;
+  SetLength(LData, SizeOf(TTokensInfo));
+  Move(buf2, LData[0], SizeOf(TTokensInfo));
+  RData := LData + RData;
+  Result := RData;
+end;
+
+class operator TTokensInfo.Add(buf1: TBytes; buf2: TTokensInfo): TBytes;
+var
+  LData, RData: TBytes;
+begin
+  RData := buf1;
+  SetLength(LData, SizeOf(TTokensInfo));
+  Move(buf2, LData[0], SizeOf(TTokensInfo));
+  RData := RData + LData;
+  Result := RData;
+end;
+
+function TTokensInfo.GetSize: integer;
+begin
+  Result := SizeOf(self);
+end;
+
+class operator TTokensInfo.Implicit(Buf: TBytes): TTokensInfo;
+begin
+  Move(Buf[0], Result, SizeOf(TTokensInfo));
+end;
+
+class operator TTokensInfo.Implicit(Buf: TTokensInfo): TBytes;
+begin
+  SetLength(Result, SizeOf(TTokensInfo));
+  Move(Buf, Result[0], SizeOf(TTokensInfo));
+end;
+
+end.

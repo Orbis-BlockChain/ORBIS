@@ -1,0 +1,22 @@
+unit BlockChain.Quorum;
+
+interface
+uses
+  System.Classes,
+  System.IOUtils,
+  System.SysUtils,
+  System.Hash,
+  System.DateUtils,
+  App.Types,
+  Wallet.Types,
+  BlockChain.BaseBlock,
+  BlockChain.BaseChain,
+  BlockChain.Types,
+  BlockChain.FileHandler,
+  Crypto.RSA;
+
+const
+  LastVersionQuorum = 0;
+implementation
+
+end.

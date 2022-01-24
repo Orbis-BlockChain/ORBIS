@@ -1,0 +1,12 @@
+unit Net.IClient;
+
+interface
+uses
+  System.SysUtils;
+type
+  IClient =interface
+    procedure SendMessage(const AData: TBytes);
+  end;
+implementation
+
+end.

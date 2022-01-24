@@ -1,0 +1,106 @@
+unit BlockChain.FastIndex.Account;
+
+interface
+uses
+  System.SysUtils,
+  System.Generics.Collections,
+  System.IOUtils,
+  App.Types,
+  BlockChain.Types,
+  BlockChain.FileHandler;
+type
+  TAccountIndex = record
+    AccountID: UInt64;
+    AccountName: THash;
+    class operator Implicit(Buf: TAccountIndex): TBytes;
+    class operator Implicit(Buf: TBytes): TAccountIndex;
+  end;
+
+  TFastIndexAccount = class
+    private
+      FPath: string;
+      FName: string;
+      ChainFile: TChainFile;
+      Accounts: TArray<TAccountIndex>;
+    public
+      function GetID(AName:THash): UInt64;
+      function GetName(AID:UInt64): THash;
+      procedure SetData(AID: UInt64; AHash: THash);
+      constructor Create(AName: string);
+      destructor Destroy;
+  end;
+
+implementation
+
+{ TFastIndexAccount }
+
+constructor TFastIndexAccount.Create(AName: string);
+begin
+  FName := AName;
+  FPath := TPath.Combine(Paths.GetPathFastIndex, FName);
+  var Header: THeader := Default(THeader);
+   Header.TypeBlock := 9;
+  var AI := Header + Default(TAccountIndex);
+  ChainFile := TChainFile.Create(FPath, AI);
+  for var i := 1 to ChainFile.GetLastBlockNumber do
+  begin
+    var buf : TBytes;
+    ChainFile.TryRead(i,buf);
+    buf := Copy(buf,SizeOf(Theader),Length(buf) - sizeOf(THeader));
+    AI := buf;
+    Accounts := Accounts + [AI];
+  end;
+
+end;
+
+destructor TFastIndexAccount.Destroy;
+begin
+  ChainFile.Free;
+end;
+
+function TFastIndexAccount.GetID(AName: THash): UInt64;
+begin
+  Result := 0;
+  for var item in Accounts do
+  begin
+    if item.AccountName = AName then
+    begin
+      Result := item.AccountID;
+      break;
+    end;
+  end;
+end;
+
+function TFastIndexAccount.GetName(AID: UInt64): THash;
+begin
+  Result := Default(THash);
+  if AID<= Length(Accounts) - 1 then
+    Result := Accounts[aid].AccountName;
+end;
+
+procedure TFastIndexAccount.SetData(AID: UInt64; AHash: THash);
+begin
+  var AI: TAccountIndex;
+  AI.AccountID := AID;
+  AI.AccountName := AHash;
+  var Header: THeader := Default(THeader);
+  Header.TypeBlock := 9;
+  var buf : TBytes := AI;
+  if ChainFile.TryWrite(Header + buf,Header) then
+    Accounts := Accounts [AI];
+end;
+
+{ TAccountIndex }
+
+class operator TAccountIndex.Implicit(Buf: TBytes): TAccountIndex;
+begin
+  Move(Buf[0], Result, SizeOf(TAccountIndex));
+end;
+
+class operator TAccountIndex.Implicit(Buf: TAccountIndex): TBytes;
+begin
+  SetLength(Result, SizeOf(TAccountIndex));
+  Move(Buf, Result[0], SizeOf(TAccountIndex));
+end;
+
+end.

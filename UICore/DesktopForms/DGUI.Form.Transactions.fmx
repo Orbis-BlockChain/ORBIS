@@ -1,0 +1,60 @@
+object TransactionsForm: TTransactionsForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Orbis node'
+  ClientHeight = 658
+  ClientWidth = 451
+  Fill.Kind = Solid
+  Position = ScreenCenter
+  StyleBook = ResourcesForm.AppStyle
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object TransactionsLabel: TLabel
+    Align = Horizontal
+    AutoSize = True
+    StyledSettings = []
+    Position.Y = 42.000000000000000000
+    Size.Width = 451.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 20.000000000000000000
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = xFF8B8CA7
+    TextSettings.HorzAlign = Center
+    Text = #1058#1088#1072#1085#1079#1072#1082#1094#1080#1080
+    TabOrder = 0
+  end
+  object Line: TLine
+    LineType = Bottom
+    Position.X = 24.000000000000000000
+    Position.Y = 585.000000000000000000
+    Size.Width = 403.000000000000000000
+    Size.Height = 1.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Color = xFFF2F2F2
+  end
+  object TransactionsListBox: TListBox
+    Position.X = 24.000000000000000000
+    Position.Y = 95.000000000000000000
+    Size.Width = 401.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'TransListBoxstyle'
+    TabOrder = 9
+    DisableFocusEffect = True
+    ItemHeight = 95.000000000000000000
+    DefaultItemStyles.ItemStyle = ''
+    DefaultItemStyles.GroupHeaderStyle = ''
+    DefaultItemStyles.GroupFooterStyle = ''
+    Viewport.Width = 397.000000000000000000
+    Viewport.Height = 476.000000000000000000
+  end
+end
