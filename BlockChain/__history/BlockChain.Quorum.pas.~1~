@@ -1,7 +1,0 @@
-unit BlockChain.Quorum;
-
-interface
-
-implementation
-
-end.
