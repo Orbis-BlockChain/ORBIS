@@ -39,6 +39,7 @@ uses
   Crypto.Data in 'AppCore\CryptoCore\Crypto.Data.pas',
   Crypto.Encoding in 'AppCore\CryptoCore\Crypto.Encoding.pas',
   Crypto.RSA in 'AppCore\CryptoCore\Crypto.RSA.pas',
+  CryptoEntity in 'AppCore\CryptoCore\CryptoEntity.pas',
   RSA.cEncrypt in 'AppCore\CryptoCore\RSA.cEncrypt.pas',
   RSA.cHash in 'AppCore\CryptoCore\RSA.cHash.pas',
   RSA.cHugeInt in 'AppCore\CryptoCore\RSA.cHugeInt.pas',
@@ -63,6 +64,7 @@ uses
   BlockChain.Types in 'AppCore\BlockChain\BlockChain.Types.pas',
   BlockChain.VoteRequest in 'AppCore\BlockChain\BlockChain.VoteRequest.pas',
   BlockChain.VotingResults in 'AppCore\BlockChain\BlockChain.VotingResults.pas',
+  BlockChain.RegisteredServices in 'AppCore\BlockChain\BlockChain.RegisteredServices.pas',
   WebServer.Abstractions in 'AppCore\WebCore\WebServer.Abstractions.pas',
   UI.Animated in 'AppCore\UICore\UI.Animated.pas',
   UI.Abstractions in 'AppCore\UICore\UI.Abstractions.pas',
@@ -107,7 +109,8 @@ uses
   Consensus2.Core in 'AppCore\Consensus\Consensus2.Core.pas',
   Consensus.Logic in 'AppCore\Consensus\Consensus.Logic.pas',
   Consensus.Types in 'AppCore\Consensus\Consensus.Types.pas',
-  BlockChain.Mined in 'AppCore\BlockChain\BlockChain.Mined.pas';
+  BlockChain.Mined in 'AppCore\BlockChain\BlockChain.Mined.pas',
+  App.FileLocker in 'AppCore\App.FileLocker.pas';
 
 {$APPTYPE GUI}
 {$R *.res}

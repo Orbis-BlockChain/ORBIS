@@ -268,7 +268,8 @@
         <Debugger_RunParams>init</Debugger_RunParams>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Release>3</VerInfo_Release>
-        <VerInfo_Keys>CompanyName=ORBIS;FileDescription=$(MSBuildProjectName);FileVersion=1.0.3.0;InternalName=ORBIS;LegalCopyright=ORBIS;LegalTrademarks=ORBIS;OriginalFilename=ORBIS;ProgramID=com.ORBIS.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.3.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=ORBIS;FileDescription=$(MSBuildProjectName);FileVersion=1.0.3.6;InternalName=ORBIS;LegalCopyright=ORBIS;LegalTrademarks=ORBIS;OriginalFilename=ORBIS;ProgramID=com.ORBIS.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.3.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>6</VerInfo_Build>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_4)'!=''">
         <DCC_Define>TESTNET;$(DCC_Define)</DCC_Define>
@@ -288,8 +289,8 @@
         <Debugger_RunParams>init</Debugger_RunParams>
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Build>3</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=ORBIS;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.3;InternalName=ORBIS;LegalCopyright=ORBIS;LegalTrademarks=ORBIS;OriginalFilename=ORBIS;ProgramID=com.ORBIS.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.3.0;Comments=</VerInfo_Keys>
+        <VerInfo_Build>6</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=ORBIS;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.6;InternalName=ORBIS;LegalCopyright=ORBIS;LegalTrademarks=ORBIS;OriginalFilename=ORBIS;ProgramID=com.ORBIS.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.5.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -305,6 +306,7 @@
         <DCCReference Include="AppCore\NetCore\Net.Server.pas"/>
         <DCCReference Include="AppCore\App.Meta.pas"/>
         <DCCReference Include="AppCore\CryptoCore\Crypto.RSA.pas"/>
+        <DCCReference Include="AppCore\CryptoCore\CryptoEntity.pas"/>
         <DCCReference Include="AppCore\CryptoCore\RSA.cEncrypt.pas"/>
         <DCCReference Include="AppCore\CryptoCore\RSA.cHash.pas"/>
         <DCCReference Include="AppCore\CryptoCore\RSA.cHugeInt.pas"/>
@@ -397,6 +399,7 @@
             <Form>$APPTYPE CONSOLE</Form>
         </DCCReference>
         <DCCReference Include="AppCore\Consensus\Consensus2.Core.pas"/>
+        <DCCReference Include="AppCore\App.FileLocker.pas"/>
         <None Include="ModelSupport_ONodeConsole\default.txaPackage"/>
         <None Include="ModelSupport_ONodeConsole\default.txvpck"/>
         <None Include="ModelSupport_ONodeConsole\App\default.txvpck"/>
@@ -543,6 +546,8 @@
                     <Source Name="MainSource">ORBISConsole.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k270.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp270.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
@@ -787,7 +792,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ORBISConsole\Crypto\AlphabetBase58\default.txvpck" Configuration="MainNet" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_ONodeConsole\Wallet\default.txvpck" Configuration="LabNetGUI" Class="ProjectFile">
                     <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -799,7 +804,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ONodeConsole\Wallet\default.txvpck" Configuration="LabNetGUI" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_ORBISConsole\Crypto\AlphabetBase58\default.txvpck" Configuration="MainNet" Class="ProjectFile">
                     <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -1038,7 +1043,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ORBISConsole\BlockChain\MainChain\default.txvpck" Configuration="MainNet" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_ORBISConsole\UI\default.txvpck" Configuration="TestNet" Class="ProjectFile">
                     <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -1050,7 +1055,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ORBISConsole\UI\default.txvpck" Configuration="TestNet" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_ORBISConsole\BlockChain\MainChain\default.txvpck" Configuration="MainNet" Class="ProjectFile">
                     <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -1536,15 +1541,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ORBISConsole\Consensus2\Core\default.txvpck" Configuration="TestNet" Class="ProjectFile">
-                    <Platform Name="Win64">
-                        <RemoteDir>.\</RemoteDir>
+                <DeployFile LocalName="ModelSupport_ORBISConsole\BlockChain\Transfer\default.txvpck" Configuration="MainNet" Class="ProjectFile">
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ORBISConsole\Wallet\default.txvpck" Configuration="TestNet" Class="ProjectFile">
-                    <Platform Name="OSX64">
-                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
+                <DeployFile LocalName="ModelSupport_ORBISConsole\Consensus2\Core\default.txvpck" Configuration="TestNet" Class="ProjectFile">
+                    <Platform Name="Win64">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -1554,7 +1559,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_ORBISConsole\BlockChain\Transfer\default.txvpck" Configuration="MainNet" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_ORBISConsole\Wallet\default.txvpck" Configuration="TestNet" Class="ProjectFile">
                     <Platform Name="OSX64">
                         <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Overwrite>true</Overwrite>

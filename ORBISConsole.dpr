@@ -12,6 +12,7 @@ uses
   Net.Server in 'AppCore\NetCore\Net.Server.pas',
   App.Meta in 'AppCore\App.Meta.pas',
   Crypto.RSA in 'AppCore\CryptoCore\Crypto.RSA.pas',
+  CryptoEntity in 'AppCore\CryptoCore\CryptoEntity.pas',
   RSA.cEncrypt in 'AppCore\CryptoCore\RSA.cEncrypt.pas',
   RSA.cHash in 'AppCore\CryptoCore\RSA.cHash.pas',
   RSA.cHugeInt in 'AppCore\CryptoCore\RSA.cHugeInt.pas',
@@ -60,7 +61,7 @@ uses
   BlockChain.FastIndex.Transfer in 'AppCore\BlockChain\BlockChain.FastIndex.Transfer.pas',
   App.HandlerCore in 'AppCore\App.HandlerCore.pas',
   App.IHandlerCore in 'AppCore\App.IHandlerCore.pas',
-  App.Notifyer in 'AppCore\App.Notifyer.pas' {$,
+  App.Notifyer in 'AppCore\App.Notifyer.pas',
   UHandlerResultComandLineParse in 'AppCore\UICore\UHandlerResultComandLineParse.pas',
   UI.Abstractions in 'AppCore\UICore\UI.Abstractions.pas',
   UI.CommandLineParser in 'AppCore\UICore\UI.CommandLineParser.pas',
@@ -76,30 +77,10 @@ uses
   BlockChain.Service in 'AppCore\BlockChain\BlockChain.Service.pas',
   BlockChain.ServiceResult in 'AppCore\BlockChain\BlockChain.ServiceResult.pas',
   App.Tools in 'AppCore\App.Tools.pas',
-  Consensus.Core in 'AppCore\Consensus\Consensus.Core.pas',
   Consensus.Logic in 'AppCore\Consensus\Consensus.Logic.pas',
   Consensus.Types in 'AppCore\Consensus\Consensus.Types.pas',
-  Consensus2.Core in 'AppCore\Consensus\Consensus2.Core.pas';
-
-{$APPTYPE CONSOLE},
-  UHandlerResultComandLineParse in 'AppCore\UICore\UHandlerResultComandLineParse.pas',
-  UI.Abstractions in 'AppCore\UICore\UI.Abstractions.pas',
-  UI.CommandLineParser in 'AppCore\UICore\UI.CommandLineParser.pas',
-  UI.ConsoleUI in 'AppCore\UICore\UI.ConsoleUI.pas',
-  UI.ParserCommand in 'AppCore\UICore\UI.ParserCommand.pas',
-  UI.Types in 'AppCore\UICore\UI.Types.pas',
-  Test.BIP39 in 'Test.BIP39.pas',
-  WebServer.Abstractions in 'AppCore\WebCore\WebServer.Abstractions.pas',
-  Updater.Core in 'AppCore\Updater\Updater.Core.pas',
-  Translate.Core in 'AppCore\Translate\Translate.Core.pas',
-  BlockChain.FastIndex.RegistredService in 'AppCore\BlockChain\BlockChain.FastIndex.RegistredService.pas',
-  BlockChain.FastIndex.Service in 'AppCore\BlockChain\BlockChain.FastIndex.Service.pas',
-  BlockChain.Service in 'AppCore\BlockChain\BlockChain.Service.pas',
-  BlockChain.ServiceResult in 'AppCore\BlockChain\BlockChain.ServiceResult.pas',
-  App.Tools in 'AppCore\App.Tools.pas',
-  Consensus.Logic in 'AppCore\Consensus\Consensus.Logic.pas',
-  Consensus.Types in 'AppCore\Consensus\Consensus.Types.pas' {$APPTYPE CONSOLE},
-  Consensus2.Core in 'AppCore\Consensus\Consensus2.Core.pas';
+  Consensus2.Core in 'AppCore\Consensus\Consensus2.Core.pas',
+  App.FileLocker in 'AppCore\App.FileLocker.pas';
 
 {$APPTYPE CONSOLE}
 {$R *.res}

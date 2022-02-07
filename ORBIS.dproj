@@ -4,7 +4,7 @@
         <ProjectVersion>19.2</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">MAINNET</Config>
+        <Config Condition="'$(Config)'==''">TESTNET</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>37890</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -345,6 +345,7 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_Optimize>false</DCC_Optimize>
         <VerInfo_Release>2</VerInfo_Release>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_3)'!=''">
         <DCC_Define>MAINNET;$(DCC_Define)</DCC_Define>
@@ -411,6 +412,7 @@
         <DCCReference Include="AppCore\CryptoCore\Crypto.Data.pas"/>
         <DCCReference Include="AppCore\CryptoCore\Crypto.Encoding.pas"/>
         <DCCReference Include="AppCore\CryptoCore\Crypto.RSA.pas"/>
+        <DCCReference Include="AppCore\CryptoCore\CryptoEntity.pas"/>
         <DCCReference Include="AppCore\CryptoCore\RSA.cEncrypt.pas"/>
         <DCCReference Include="AppCore\CryptoCore\RSA.cHash.pas"/>
         <DCCReference Include="AppCore\CryptoCore\RSA.cHugeInt.pas"/>
@@ -435,6 +437,7 @@
         <DCCReference Include="AppCore\BlockChain\BlockChain.Types.pas"/>
         <DCCReference Include="AppCore\BlockChain\BlockChain.VoteRequest.pas"/>
         <DCCReference Include="AppCore\BlockChain\BlockChain.VotingResults.pas"/>
+        <DCCReference Include="AppCore\BlockChain\BlockChain.RegisteredServices.pas"/>
         <DCCReference Include="AppCore\WebCore\WebServer.Abstractions.pas"/>
         <DCCReference Include="AppCore\UICore\UI.Animated.pas"/>
         <DCCReference Include="AppCore\UICore\UI.Abstractions.pas"/>
@@ -549,6 +552,7 @@
         <DCCReference Include="AppCore\Consensus\Consensus.Logic.pas"/>
         <DCCReference Include="AppCore\Consensus\Consensus.Types.pas"/>
         <DCCReference Include="AppCore\BlockChain\BlockChain.Mined.pas"/>
+        <DCCReference Include="AppCore\App.FileLocker.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

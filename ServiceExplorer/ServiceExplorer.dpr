@@ -14,6 +14,7 @@ uses
   Crypto.Data in '..\AppCore\CryptoCore\Crypto.Data.pas',
   Crypto.Encoding in '..\AppCore\CryptoCore\Crypto.Encoding.pas',
   Crypto.RSA in '..\AppCore\CryptoCore\Crypto.RSA.pas',
+  CryptoEntity in '..\AppCore\CryptoCore\CryptoEntity.pas',
   RSA.cEncrypt in '..\AppCore\CryptoCore\RSA.cEncrypt.pas',
   RSA.cHash in '..\AppCore\CryptoCore\RSA.cHash.pas',
   RSA.cHugeInt in '..\AppCore\CryptoCore\RSA.cHugeInt.pas',

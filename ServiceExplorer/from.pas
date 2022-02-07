@@ -34,6 +34,9 @@ type
     function GetPathCryptoContainer: string;
     function GetPathFastIndex: string;
     procedure SetRootPath(APath:string);
+//    function QueryInterface(const IID: TGUID; out Obj): HResult; stdcall;
+//    function _AddRef: Integer; stdcall;
+//    function _Release: Integer; stdcall;
 
   end;
 
@@ -121,7 +124,7 @@ begin
           sn:=DataSource[i][j].Value;
        if DataSource[0][j].Key = 'Amount' then
         begin
-        if ansipos('E',sn)>0 then stringgrid1.Cells[j,i] := FloatEToString(StrToFloat(sn))
+        if ansipos('E',sn)>0 then stringgrid1.Cells[j,i] := FloatEToString(StrToFloat(sn)) //FormatFloat('###0.########',StrToFloat(sn))
                               else stringgrid1.Cells[j,i] := sn;
         end
        else stringgrid1.Cells[j,i] := sn;
@@ -150,6 +153,7 @@ begin
   TypeNet := 'test';
   try
     ComboBox1Change(nil);
+  //  combobox1.ItemIndex := 0;
   except
     on e: EXception do
       ShowMessage('ERROR: ' + e.Message);

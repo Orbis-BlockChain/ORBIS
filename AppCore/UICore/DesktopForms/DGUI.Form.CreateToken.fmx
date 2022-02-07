@@ -1,0 +1,372 @@
+object CreateTokenForm: TCreateTokenForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = Single
+  Caption = 'Orbis node'
+  ClientHeight = 658
+  ClientWidth = 451
+  Fill.Kind = Solid
+  Padding.Left = 20.000000000000000000
+  Padding.Right = 20.000000000000000000
+  Position = ScreenCenter
+  StyleBook = ResourcesForm.AppStyle
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  DesignerMasterStyle = 0
+  object CapacityEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    StyleLookup = 'EditWalletStyle'
+    TabOrder = 5
+    KeyboardType = NumberPad
+    MaxLength = 1
+    FilterChar = '012345678'
+    Text = '0'
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF6C757D
+    Position.X = 20.000000000000000000
+    Position.Y = 287.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 36.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Style]
+    OnChange = CapacityEditChange
+  end
+  object CapacityLayout: TLayout
+    Align = Top
+    Padding.Top = 6.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 249.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 38.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 14
+    object CapacityText2: TText
+      Align = Left
+      Margins.Left = -12.000000000000000000
+      Margins.Top = 5.000000000000000000
+      Margins.Bottom = 20.000000000000000000
+      Position.X = 125.212890625000000000
+      Position.Y = 11.000000000000000000
+      Size.Width = 10.536621093750000000
+      Size.Height = 7.000000000000000000
+      Size.PlatformDefault = False
+      Text = '-8'
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 9.000000000000000000
+      TextSettings.FontColor = xFF94AFB6
+    end
+    object CapacityText1: TText
+      Align = MostLeft
+      Position.Y = 6.000000000000000000
+      Size.Width = 137.212890625000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Text = #1056#1072#1079#1088#1103#1076#1085#1086#1089#1090#1100': '#1076#1086' 1*10  '
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.FontColor = xFF94AFB6
+      TextSettings.WordWrap = False
+      TextSettings.HorzAlign = Leading
+    end
+    object CapacityText3: TText
+      Align = Left
+      Position.X = 135.749511718750000000
+      Position.Y = 6.000000000000000000
+      Size.Width = 169.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Text = '('#1076#1086' 8 '#1079#1085#1072#1082#1086#1074' '#1087#1086#1089#1083#1077' '#1079#1072#1087#1103#1090#1086#1081')'
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.FontColor = xFF94AFB6
+      TextSettings.WordWrap = False
+    end
+    object CapacityLabel: TLabel
+      Align = Client
+      StyledSettings = [Style]
+      Size.Width = 320.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.FontColor = xFF94AFB6
+      Text = #1056#1072#1079#1088#1103#1076#1085#1086#1089#1090#1100' '#1090#1086#1082#1077#1085#1072
+      Visible = False
+      TabOrder = 0
+    end
+  end
+  object CostEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    StyleLookup = 'EditWalletStyle'
+    TabOrder = 3
+    KeyboardType = NumberPad
+    ReadOnly = True
+    FilterChar = '0123456789'
+    Text = '1'
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF6C757D
+    Position.X = 20.000000000000000000
+    Position.Y = 437.000000000000000000
+    HitTest = False
+    Margins.Top = 8.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 36.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Style]
+    object ORBCLabel: TLabel
+      Align = MostRight
+      StyledSettings = [Style]
+      Margins.Right = 14.000000000000000000
+      Position.X = 339.000000000000000000
+      Size.Width = 58.000000000000000000
+      Size.Height = 36.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 14.000000000000000000
+      TextSettings.FontColor = xFF868686
+      TextSettings.HorzAlign = Trailing
+      Text = 'ORBC'
+      TabOrder = 0
+    end
+  end
+  object CostLabel: TLabel
+    Align = Top
+    AutoSize = True
+    StyledSettings = [Style]
+    Margins.Top = 16.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 414.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = #1057#1090#1086#1080#1084#1086#1089#1090#1100' '#1074#1099#1087#1091#1089#1082#1072' '#1090#1086#1082#1077#1085#1072' '#1074' ORBC'
+    TabOrder = 2
+  end
+  object CreateTokenRectangle: TRectangle
+    Align = Top
+    Fill.Color = xFF9B51E0
+    Margins.Top = 24.000000000000000000
+    Margins.Bottom = 25.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 566.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    XRadius = 4.000000000000000000
+    YRadius = 4.000000000000000000
+    OnClick = CreateTokenRectangleClick
+    object CreateTokenLabel: TLabel
+      Align = Client
+      StyledSettings = []
+      Size.Width = 411.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = claWhite
+      TextSettings.HorzAlign = Center
+      Text = #1057#1086#1079#1076#1072#1090#1100' '#1090#1086#1082#1077#1085
+      TabOrder = 0
+    end
+  end
+  object InfoLabel: TLabel
+    Align = Top
+    AutoSize = True
+    StyledSettings = [Style]
+    Margins.Left = 5.000000000000000000
+    Margins.Top = 40.000000000000000000
+    Margins.Right = 5.000000000000000000
+    Position.X = 25.000000000000000000
+    Position.Y = 513.000000000000000000
+    Size.Width = 401.000000000000000000
+    Size.Height = 29.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    TextSettings.HorzAlign = Center
+    Text = 
+      #1050#1086#1084#1080#1089#1089#1080#1103' '#1079#1072' '#1090#1088#1072#1085#1079#1072#1082#1094#1080#1102' '#1090#1086#1082#1077#1085#1072' '#1074' '#1089#1077#1090#1080' ORBIS = 0 ORBC '#1076#1086' '#1087#1088#1080#1085#1103#1090#1080#1103' ' +
+      #1088#1077#1096#1077#1085#1080#1103' DAO'
+    TabOrder = 13
+  end
+  object MaxEmissionEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    StyleLookup = 'EditWalletStyle'
+    TabOrder = 9
+    KeyboardType = NumberPad
+    MaxLength = 18
+    FilterChar = '0123456789'
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF6C757D
+    Position.X = 20.000000000000000000
+    Position.Y = 362.000000000000000000
+    Margins.Top = 8.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 36.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Style]
+  end
+  object MaxEmissionLabel: TLabel
+    Align = Top
+    AutoSize = True
+    StyledSettings = [Style]
+    Margins.Top = 16.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 339.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = #1054#1073#1098#1077#1084' '#1074#1099#1087#1091#1089#1082#1072' '#1090#1086#1082#1077#1085#1072
+    TabOrder = 4
+  end
+  object SymbolEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    StyleLookup = 'EditWalletStyle'
+    TabOrder = 12
+    KeyboardType = Alphabet
+    MaxLength = 4
+    FilterChar = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF525A64
+    Position.X = 20.000000000000000000
+    Position.Y = 213.000000000000000000
+    Hint = '222'
+    Margins.Top = 8.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 36.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Style]
+    ParentShowHint = False
+    ShowHint = True
+    CharCase = ecUpperCase
+  end
+  object SymbolLabel: TLabel
+    Align = Top
+    AutoSize = True
+    StyledSettings = [Style]
+    Margins.Top = 16.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 190.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = #1057#1080#1084#1074#1086#1083' ('#1085#1077' '#1073#1086#1083#1077#1077' 4 '#1079#1072#1075#1083#1072#1074#1085#1099#1093' '#1083#1072#1090#1080#1085#1089#1082#1080#1093' '#1073#1091#1082#1074')'
+    TabOrder = 6
+  end
+  object TokenNameEdit: TEdit
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
+    Align = Top
+    StyleLookup = 'EditWalletStyle'
+    TabOrder = 11
+    KeyboardType = Alphabet
+    MaxLength = 32
+    FilterChar = 'QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm'
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.Font.Size = 14.000000000000000000
+    TextSettings.FontColor = xFF525A64
+    Position.X = 20.000000000000000000
+    Position.Y = 138.000000000000000000
+    Hint = '123'
+    Margins.Top = 8.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 36.000000000000000000
+    Size.PlatformDefault = False
+    StyledSettings = [Style]
+  end
+  object TokenNameLabel: TLabel
+    Align = Top
+    AutoSize = True
+    StyledSettings = [Style]
+    Margins.Top = 25.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 115.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 15.000000000000000000
+    Size.PlatformDefault = False
+    TextSettings.Font.Family = 'Roboto'
+    TextSettings.FontColor = xFF94AFB6
+    Text = #1053#1072#1079#1074#1072#1085#1080#1077' '#1090#1086#1082#1077#1085#1072' ('#1083#1102#1073#1086#1077' '#1083#1072#1090#1080#1085#1089#1082#1080#1084#1080' '#1073#1091#1082#1074#1072#1084#1080')'
+    TabOrder = 8
+  end
+  object TopLayout: TLayout
+    Align = MostTop
+    Margins.Top = 40.000000000000000000
+    Position.X = 20.000000000000000000
+    Position.Y = 40.000000000000000000
+    Size.Width = 411.000000000000000000
+    Size.Height = 50.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object HeadLabel: TLabel
+      Align = Contents
+      StyledSettings = []
+      Size.Width = 411.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Family = 'Roboto'
+      TextSettings.Font.Size = 26.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = xFF525A64
+      TextSettings.HorzAlign = Center
+      Text = #1057#1086#1079#1076#1072#1090#1100' '#1090#1086#1082#1077#1085
+      TabOrder = 0
+    end
+    object BackLayout: TLayout
+      Align = MostLeft
+      HitTest = True
+      Margins.Left = -8.000000000000000000
+      Margins.Top = 6.000000000000000000
+      Margins.Bottom = 6.000000000000000000
+      Position.X = -8.000000000000000000
+      Position.Y = 6.000000000000000000
+      Size.Width = 38.000000000000000000
+      Size.Height = 38.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+      TabOrder = 1
+      OnClick = BackLayoutClick
+      object BackPath: TPath
+        Align = Center
+        Data.Path = {
+          2000000000000000000000000AD7A33D02000000000000000AD7A33D02000000
+          000000000AD7A33D0200000000000000295C8F3D0200000000000000295C8F3D
+          0200000000000000295C8F3D0200000000000000295C8F3D01000000295C8F3D
+          0000000002000000295C8F3D00000000020000000AD7A33D0000000002000000
+          0AD7A33D0000000002000000EB51B83D0AD7233C02000000EB51B83D0AD7233C
+          020000000AD7A33D0AD7A33C010000000AD7233D8FC2753D010000007A142E3E
+          8FC2753D020000007A142E3E8FC2753D02000000EB51383E295C8F3D02000000
+          EB51383E295C8F3D02000000EB51383E0AD7A33D020000007A142E3E0AD7A33D
+          020000007A142E3E0AD7A33D0100000008D7233D0AD7A33D0100000009D7A33D
+          B81E053E02000000EA51B83DB81E053E02000000EA51B83D295C0F3E02000000
+          09D7A33D295C0F3E0200000009D7A33D9A99193E02000000285C8F3D9A99193E
+          02000000285C8F3D295C0F3E01000000000000B20AD7A33D0300000000000000
+          0AD7A33D}
+        Fill.Color = xFF8B8CA7
+        HitTest = False
+        Size.Width = 18.000000000000000000
+        Size.Height = 15.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Kind = None
+        WrapMode = Fit
+      end
+    end
+  end
+end

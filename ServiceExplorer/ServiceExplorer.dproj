@@ -322,6 +322,7 @@
         <DCCReference Include="..\AppCore\CryptoCore\Crypto.Data.pas"/>
         <DCCReference Include="..\AppCore\CryptoCore\Crypto.Encoding.pas"/>
         <DCCReference Include="..\AppCore\CryptoCore\Crypto.RSA.pas"/>
+        <DCCReference Include="..\AppCore\CryptoCore\CryptoEntity.pas"/>
         <DCCReference Include="..\AppCore\CryptoCore\RSA.cEncrypt.pas"/>
         <DCCReference Include="..\AppCore\CryptoCore\RSA.cHash.pas"/>
         <DCCReference Include="..\AppCore\CryptoCore\RSA.cHugeInt.pas"/>
@@ -469,12 +470,6 @@
                 <DeployFile LocalName="..\source\incs2.icns" Configuration="Debug" Class="ProjectOSXResource">
                     <Platform Name="OSX64">
                         <RemoteName>ServiceExplorer.icns</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="Win64\Release\ServiceExplorer.exe" Configuration="Release" Class="ProjectOutput">
-                    <Platform Name="Win64">
-                        <RemoteName>ServiceExplorer.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
