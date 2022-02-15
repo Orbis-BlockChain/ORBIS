@@ -74,6 +74,8 @@ type
     function GetTokenTransactions(const Tab, Symbol: String; const PageID, Count: Integer): TJSONObject;
     function GetStatisticsData(const Tab: String; DateFrom: String = ''; DateTo: String = ''; const Step: Int64 = 86400): TJSONObject;
     function GetMiningData: TJSONObject;
+    function GetMinedData(const PageID, Count: Integer;
+      const SortBy: String = 'datetime'; const Inverse: Boolean = False): TJSONObject;
     function RegNewService(const FAddress, FPass, Name: String): TJSONObject;
     function SetServiceData(const FAddress, FPass, Name: String; FData: TSRData): TJSONObject;
     function GetServiceData(const Name: String): TJSONObject;
@@ -577,7 +579,7 @@ try
 
       for FTrans in FAccTransactions do
       begin
-        if (SL.Strings[0] = Trim(String(FTrans.Token))) then
+        if (Trim(SL.Strings[0]) = Trim(String(FTrans.Token)).ToUpper) then
           if (BC.Inquiries.TryGetAccountID(String(FTrans.Afrom)) = AccID) then
             Sent := Sent + BC.Inquiries.GetAmountFromVolume(FTrans.Sent, Decimals)
           else if (BC.Inquiries.TryGetAccountID(String(FTrans.Ato)) = AccID) then
@@ -894,8 +896,8 @@ try
 
     if Inverse then
     begin
-      startp := Min(startp, Length(FAllAcc));
-      endp := Min(startp + Count - 1, Length(FAllAcc) - 1);
+      startp := Min(startp, Length(FAllServices));
+      endp := Min(startp + Count - 1, Length(FAllServices) - 1);
       Step := 1;
       i := startp;
     end
@@ -927,7 +929,60 @@ except
 end;
 end;
 
+function TBlockChainSource.GetMinedData(const PageID, Count: Integer;
+      const SortBy: String = 'datetime'; const Inverse: Boolean = False): TJSONObject;
+var
+  MinedInfoArr: TArray<TMinedInfo>;
+  JSONArr: TJSONArray;
+  JSONNestedObject: TJSONObject;
+  i, startp, Step, endp: Int64;
+begin
+try
+
+  Result := TJSONObject.Create;
+  JSONArr := TJSONArray.Create;
+
+  MinedInfoArr := BC.Inquiries.TryGetMinedInfo(sortby);
+
+  startp := (PageID - 1) * Count;
+
+  if Inverse then
+  begin
+    startp := Min(startp, Length(MinedInfoArr));
+    endp := Min(startp + Count - 1, Length(MinedInfoArr) - 1);
+    Step := 1;
+    i := startp;
+  end
+  else
+  begin
+    startp := Max(-1, Length(MinedInfoArr) - startp - 1);
+    endp := Max(0, startp - Count + 1);
+    Step := -1;
+    i := startp;
+  end;
+
+  while i <> (endp + Step) do
+  begin
+    JSONArr.AddElement(TJSONObject.Create);
+    JSONNestedObject := JSONArr.Items[pred(JSONArr.Count)] as TJSONObject;
+
+    JSONNestedObject.AddPair('unix_time',TJSONNumber.Create(MinedInfoArr[i].DateTime));
+    JSONNestedObject.AddPair('validator_address', MinedInfoArr[i].ValidAddress);
+    JSONNestedObject.AddPair('block_number',TJSONNumber.Create(MinedInfoArr[i].BlockNumber));
+
+    i := i + Step;
+  end;
+
+  Result.AddPair('minings_count', TJSONNumber.Create(Length(MinedInfoArr)));
+  Result.AddPair('list', JSONArr);
+except
+  WebServerLog.DoError('SourceData.GetMined','procedureError');
+end;
+end;
+
 function TBlockChainSource.GetMiningData: TJSONObject;
+var
+  ORBC_balance: Double;
 begin
 try
 
@@ -935,6 +990,9 @@ try
 
   Result.AddPair('last_mining_date',TJSONNumber.Create(BC.Inquiries.TryGetLastMined));
   Result.AddPair('OM_count',TJSONNumber.Create(BC.Inquiries.TryGetCountOM));
+
+  ORBC_balance := BC.Inquiries.TryGetBalance(BC.Inquiries.TryGetAccountAddress(0),'ORBC');
+  Result.AddPair('ORBC_in_circulation',TJSONNumber.Create(42000000 - ORBC_balance));
 except
   WebServerLog.DoError('SourceData.GetMiningData','procedureError');
 end;

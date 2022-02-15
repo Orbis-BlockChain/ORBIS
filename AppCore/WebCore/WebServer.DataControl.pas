@@ -1288,6 +1288,79 @@ begin
             end;
             end
             else
+
+            if (Request.Path.ToLower.StartsWith('/api/mined_info/')) then                      //done
+            begin
+            try
+              WebServerLog.DoAlert('DataControl.Mined','procedureEnter');
+              FParams.FData := Copy(Request.Path, 17, Length(Request.Path));
+              if not((FParams.GetArgsCount = 2) or (FParams.GetArgsCount = 4)) then
+                raise Exception.Create('bad arguments count');
+
+              case FParams.GetArgsCount of
+                2:
+                  begin
+                    frstarg := FParams.GetKeyValue('page', 1);
+                    if (frstarg = NL) then
+                      raise Exception.Create('argument ''page'' is not found');
+                    if not(TryStrToInt(frstarg, pagenum) and (pagenum > 0)) then
+                      raise Exception.Create('incorrect page number');
+
+                    scndarg := FParams.GetKeyValue('pagesize', 2);
+                    if (scndarg = NL) then
+                      raise Exception.Create('argument ''pagesize'' is not found');
+                    if not(TryStrToInt(scndarg, pagesize) and (pagesize > 0)) then
+                      raise Exception.Create('incorrect page size number');
+
+                    JSObj.Free;
+                    JSObj := FDataSource.GetMinedData(pagenum,pagesize);
+                  end;
+
+                4:
+                  begin
+                    frstarg := FParams.GetKeyValue('sortby', 1).ToLower;
+                    if (frstarg = NL) then
+                      raise Exception.Create('argument ''sortby'' is not found');
+                    if not((frstarg = 'datetime') or (frstarg = 'blocknum'))then
+                      raise Exception.Create('incorrect sortby argument value');
+
+                    scndarg := FParams.GetKeyValue('inverse', 2).ToLower;
+                    if (scndarg = NL) then
+                      raise Exception.Create('argument ''inverse'' is not found');
+                    if not TryStrToBool(scndarg,Inverse) then
+                      raise Exception.Create('incorrect inverse argument value');
+
+                    thrdarg := FParams.GetKeyValue('page', 3);
+                    if (thrdarg = NL) then
+                      raise Exception.Create('argument ''page'' is not found');
+                    if not(TryStrToInt(thrdarg, pagenum) and (pagenum > 0)) then
+                      raise Exception.Create('incorrect page number');
+
+                    frtharg := FParams.GetKeyValue('pagesize', 4);
+                    if (frtharg = NL) then
+                      raise Exception.Create('argument ''pagesize'' is not found');
+                    if not(TryStrToInt(frtharg, pagesize) and (pagesize > 0)) then
+                      raise Exception.Create('incorrect page size number');
+
+                    JSObj.Free;
+                    JSObj := FDataSource.GetMinedData(pagenum,pagesize,frstarg,Inverse);
+                  end;
+              end;
+
+
+
+              WebServerLog.DoAlert('DataControl.Mined','procedureLeave');
+            except
+              on E: Exception do
+              begin
+                JSObj.AddPair('success', TJSONBool.Create(False));
+                JSObj.AddPair('error', E.Message);
+              end
+              else
+                WebServerLog.DoError('DataControl.Mined','procedureError');
+            end;
+            end
+            else
           {$ENDREGION}
 
           {$REGION 'Services requests'}

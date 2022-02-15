@@ -86,6 +86,7 @@ type
     function TryGetTransactionHistoryItems(AccID: UInt64; UnixFrom, UnixTo: Int64): TArray<TTransHistoryItem>;
     function TryGetAllTransactionsBySymbol(Symbol: TSymbol): TArray<TTransHistoryItem>;
     function TryGetALLTransactions(Sort: String = 'blocknum'): TArray<TTransHistoryItem>;
+    function TryGetMinedInfo(Sort:String = 'datetime'): TArray<TMinedInfo>;
     function TryGetLastMined: Int64;
     function TryGetCountOM: UInt64;
     function TryGetSentAmountAllTime(AID, TID: UInt64): double;
@@ -493,6 +494,48 @@ begin
   finally
     Block.Free;
   end;
+end;
+
+function TBlockChainInquiries.TryGetMinedInfo(Sort:String = 'datetime'): TArray<TMinedInfo>;
+var
+  Data: TBytes;
+  Block: TBaseBlock;
+  AMined: TMinedInfo;
+begin
+  Result := [];
+  for var j := 1 to MinedChain.GetLastBlockID do
+  begin
+    try
+      Block := MinedChain.GetBlock(j);
+      var
+      Header := Block.GetHeader;
+      case Header.VersionData of
+        0:
+          begin
+            Data := MinedChain.GetBlock(j).GetDataWithoutHeader;
+            var
+              info: TMinedInfoV0 := TMinedTrxV0(Data).MinedInfo;
+
+            AMined.ValidAddress := TryGetAccountAddress(info.IDWitness);
+            AMined.BlockNumber := info.FromBlock;
+            AMined.DateTime := info.DateTime;
+
+            Result := Result + [AMined];
+          end;
+      end;
+    finally
+      Block.Free;
+    end;
+  end;
+
+  TArray.Sort<TMinedInfo>(Result, TComparer<TMinedInfo>.Construct(
+    function(const Left, Right: TMinedInfo): integer
+    begin
+      if Sort = 'datetime' then
+        Result := CompareValue(Left.DateTime, Right.DateTime)
+      else
+        Result := CompareValue(Left.BlockNumber, Right.BlockNumber)
+    end));
 end;
 
 function TBlockChainInquiries.TryGetAccTokensCount(Address: String): UInt64;
@@ -3791,8 +3834,8 @@ begin
               Data.token := TryGetTokenSymbol(info.TokenID);
               Data.sent := GetVolumeFromAmount(info.Amount, TryGetTokenDecimals(info.TokenID));
               Data.sentstr := GetVolumeFromAmount(info.Amount, TryGetTokenDecimals(info.TokenID), False);
-              Data.received := 0;
-              Data.receivedstr := '0';
+              Data.received := Data.sent;
+              Data.receivedstr := Data.sentstr;
               Data.fee := 0;
               Result := Result + [Data];
             end;
@@ -3862,23 +3905,18 @@ end;
 
 function TBlockChainInquiries.GetVolumeFromAmount(Amount, Decimals: UInt64;
   IsForce: Boolean): String;
-var
-  i: Integer;
-  AmountStr: String;
 begin
-  AmountStr := Amount.AsString;
+  Result := Amount.AsString;
+
   if Decimals > 0 then
   begin
-    for i := Length(AmountStr) to Decimals - 1 do
-      AmountStr := '0' + AmountStr;
-    Result := AmountStr.Insert(Length(AmountStr) - Decimals, DecimalSeparator);
+    while Length(Result) < Decimals do
+      Result := '0' + Result;
+
+    Result := Result.Insert(Length(Result) - Decimals, DecimalSeparator);
     if Result.StartsWith(DecimalSeparator) then
       Result := '0' + Result;
-  end
-  else
-    Result := AmountStr;
 
-  if Result.IndexOf(DecimalSeparator) <> -1 then
     while Result.EndsWith('0') do
     begin
       Result := Copy(Result, 1, Length(Result) - 1);
@@ -3888,6 +3926,7 @@ begin
         break;
       end;
     end;
+  end;
 end;
 
 function TBlockChainInquiries.GetVolumeFromAmountToken(Amount, TokenID: UInt64): double;
@@ -4144,27 +4183,28 @@ begin
     exit;
   var
   decimal := TryGetTokenDecimals(TID);
-  var
-  firstBalance := TransferChain.GetBalance(AID, TID).AsString;
+
+  Result := TransferChain.GetBalance(AID, TID).AsString;
 
   if decimal > 0 then
   begin
-    balance := firstBalance.Insert(Length(firstBalance) - decimal, DecimalSeparator);
-    if balance.StartsWith(DecimalSeparator) then
-      balance := '0' + balance;
-  end
-  else
-    balance := firstBalance;
-  if balance.IndexOf(DecimalSeparator) <> -1 then
-    while balance.EndsWith('0') do
+    while Length(Result) < decimal do
+      Result := '0' + Result;
+
+    Result := Result.Insert(Length(Result) - decimal, DecimalSeparator);
+    if Result.StartsWith(DecimalSeparator) then
+      Result := '0' + Result;
+
+    while Result.EndsWith('0') do
     begin
-      balance := Copy(balance, 1, Length(balance) - 1);
-      if balance.EndsWith(DecimalSeparator) then
+      Result := Copy(Result, 1, Length(Result) - 1);
+      if Result.EndsWith(DecimalSeparator) then
       begin
-        balance := Copy(balance, 1, Length(balance) - 1);
+        Result := Copy(Result, 1, Length(Result) - 1);
         break;
       end;
     end;
+  end;
 end;
 
 procedure TBlockChainInquiries.CreateOM(const AID: UInt64);

@@ -68,7 +68,6 @@ type
     procedure GetBalance(Args: array of string);
     procedure DoMining;
     procedure TryBuyOM;
-    procedure TryEasyBuyOM;
     procedure SetDefaultState;
     procedure CreateToken(Args: array of string);
     procedure CreateTransfer(Args: array of string);
@@ -160,13 +159,17 @@ end;
 
 function THandlerCore.CreateWallet(Password: string): integer;
 var
+  counter: integer;
+  flag: Boolean;
+  NewAddress: THash;
   Msg: string;
   Packet: TPacket;
 begin
   Result := -1;
   if WalletCore.TryCreateNewWallet(Password) then
   begin
-    Msg := 'Trying create your wallet: ' + WalletCore.CurrentWallet.GetAddress;
+    NewAddress := WalletCore.CurrentWallet.GetAddress;
+    Msg := 'Trying create your wallet: ' + NewAddress;
     Packet.CreatePacket(CMD_REQUEST_NEW_CC, BlockChain.Inquiries.CreateTrxNewWallet(WalletCore.CurrentWallet));
     Result := Net.SendPacket(Packet);
     UI.ShowMessage(Msg);
@@ -1006,33 +1009,6 @@ begin
   Net.SendPacket(Packet);
 end;
 
-procedure THandlerCore.TryEasyBuyOM;
-var
-  Msg: string;
-  Packet: TPacket;
-  ResHash: string;
-begin
-  if (NodeState <> Speaker) or (ParamStr(1) <> 'init') then
-  begin
-    Msg := 'System: Unexpected command';
-    UI.ShowMessage(Msg);
-    Exit;
-  end;
-
-  if WalletID = 0 then
-  begin
-    Msg := 'System: Sorry, you dont have open wallet';
-    UI.ShowMessage(Msg);
-    Exit;
-  end;
-  Packet.CreatePacket(CMD_REQUEST_EASY_NEW_OWNER_MINING, BlockChain.Inquiries.CreateTrxNewTransfer(ResHash, MainCoin, 0, 10000,
-    WalletCore.CurrentWallet, True));
-  Net.SendPacket(Packet);
-  Msg := 'System: Ok. Buyed OM.';
-
-  UI.ShowMessage(Msg);
-end;
-
 function THandlerCore.TryEasySendTransfer(var AResHash: string; ASymbol, AAddress, AAValue: string; var AError: integer;
   var AErrorMsg: string): boolean;
 var
@@ -1269,8 +1245,6 @@ begin
       GetBalance(Args);
     CMD_CREATE_OM:
       TryBuyOM;
-    CMD_EASY_CREATE_OM:
-      TryEasyBuyOM;
     CMD_DO_MINING:
       DoMining;
     CMD_BAD_ARG:
@@ -1302,7 +1276,6 @@ end;
 
 procedure THandlerCore.HandleGUICommand(Command: Byte; Args: array of string; ACallback: TCallBack);
 begin
-
   case Command of
     CMD_GUI_CREATE_WALLET:
       begin
@@ -1863,42 +1836,6 @@ begin
           end;
         end;
 
-      CMD_REQUEST_EASY_NEW_OWNER_MINING:
-        begin
-          if (NodeState = Speaker) or (NodeState = Validator) then
-          begin
-            var
-              countblocks: UInt64;
-            if BlockChain.Inquiries.DoEasyBuyOm(Mining, requestPacket.PacketBody, WalletCore.CurrentWallet, countblocks) then
-            begin
-              responsePacket.CreatePacket(CMD_RESPONSE_EASY_NEW_OWNER_MINING, [ord(True)]);
-              From.DoLog('HandleReceiveTCPData', 'CMD_REQUEST_EASY_NEW_OWNER_MINING: CMD_RESPONSE_EASY_NEW_OWNER_MINING  - GOOD');
-            end
-            else
-            begin
-              responsePacket.CreatePacket(CMD_RESPONSE_EASY_NEW_OWNER_MINING, [ord(false)]);
-              From.DoLog('HandleReceiveTCPData', 'CMD_REQUEST_EASY_NEW_OWNER_MINING: CMD_RESPONSE_EASY_NEW_OWNER_MINING  - BAD');
-            end;
-
-            From.SendMessage(responsePacket);
-          end;
-        end;
-      CMD_RESPONSE_EASY_NEW_OWNER_MINING:
-        begin
-          if not isValid then
-            Exit;
-          if requestPacket.PacketBody[0] = 1 then
-          begin
-            UI.ShowMessage('System: Ok. Your Transfer on Buy OM accepted. Wait for confirmation ');
-            From.DoLog('HandleReceiveTCPData', 'CMD_RESPONSE_EASY_NEW_OWNER_MINING:  - GOOD');
-          end
-          else
-          begin
-            UI.ShowMessage('System: Bad. Your Transfer not accepted.');
-            UI.ShowMessage('System: Please, try again later.');
-            From.DoLog('HandleReceiveTCPData', 'CMD_RESPONSE_EASY_NEW_OWNER_MINING: - BAD');
-          end;
-        end;
       CMD_RESPONSE_GET_NEW_BLOCKS:
         begin
           var
@@ -2339,13 +2276,10 @@ end;
 
 function THandlerCore.ParseDataBalances(AData: TBytes): TArray<string>;
 var
-  Counter: integer;
+  Counter, decimal: integer;
   TokenID: UInt64;
   firstBalance: UInt64;
-  decimal: integer;
-  // floatingFormat,
   balance: string;
-  pairBalance: TPair<string, real>;
   ExistORBC: boolean;
 begin
   Result := [];
@@ -2358,15 +2292,17 @@ begin
     Move(AData[Counter], firstBalance, sizeOf(firstBalance));
     inc(Counter, sizeOf(UInt64));
     decimal := BlockChain.Inquiries.TryGetTokenDecimals(TokenID);
+    balance := firstBalance.AsString;
+
     if decimal > 0 then
     begin
-      balance := firstBalance.AsString.Insert(Length(firstBalance.AsString) - decimal, DecimalSeparator);
+      while Length(balance) < decimal do
+        balance := '0' + balance;
+
+      balance := balance.Insert(Length(balance) - decimal, DecimalSeparator);
       if balance.StartsWith(DecimalSeparator) then
         balance := '0' + balance;
-    end
-    else
-      balance := firstBalance.AsString;
-    if balance.IndexOf(DecimalSeparator) <> -1 then
+
       while balance.EndsWith('0') do
       begin
         balance := Copy(balance, 1, Length(balance) - 1);
@@ -2376,32 +2312,20 @@ begin
           break;
         end;
       end;
-    // balance := firstBalance * (Power(0.1, BlockChain.Inquiries.TryGetTokenDecimals(TokenID)));
-    // if decimal > 0 then
-    // begin
-    // floatingFormat := '0.';
-    // for var i := 0 to decimal - 1 do
-    // floatingFormat := floatingFormat + '0';
-    // floatingFormat := floatingFormat + '##';
-    // end
-    // else
-    // floatingFormat := '0';
+    end;
 
     var
       flags: TReplaceFlags;
     flags := [rfReplaceAll];
-    if BlockChain.Inquiries.TryGetTokenSymbol(TokenID) = 'GAVNO' then
-      ExistORBC := ExistORBC;
+
     if TokenID <> 1 then
-    begin // попробуем так
+    begin
       Result := Result + [StringReplace(BlockChain.Inquiries.TryGetTokenSymbol(TokenID), OldDecimalSeparator, DecimalSeparator, flags)] +
-      // [StringReplace(FormatFloat(floatingFormat, balance), OldDecimalSeparator, DecimalSeparator, flags)];
         [StringReplace(balance, OldDecimalSeparator, DecimalSeparator, flags)] + [decimal.ToString];
     end
     else
     begin
       Result := [StringReplace(BlockChain.Inquiries.TryGetTokenSymbol(TokenID), OldDecimalSeparator, DecimalSeparator, flags)] +
-      // [StringReplace(FormatFloat(floatingFormat, balance), OldDecimalSeparator, DecimalSeparator, flags)] + Result;
         [StringReplace(balance, OldDecimalSeparator, DecimalSeparator, flags)] + [decimal.ToString];
       ExistORBC := True;
     end;

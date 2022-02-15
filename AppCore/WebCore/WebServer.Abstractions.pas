@@ -34,6 +34,8 @@ type
     function GetStatisticsData(const Tab: String; DateFrom: String = ''; DateTo: String = '';
       const Step: Int64 = 86400): TJSONObject;
     function GetMiningData: TJSONObject;
+    function GetMinedData(const PageID, Count: Integer;
+      const SortBy: String = 'datetime'; const Inverse: Boolean = False): TJSONObject;
 
     function RegNewService(const FAddress, FPass, Name: String): TJSONObject;
     function SetServiceData(const FAddress, FPass, Name: String; Data: TSRData): TJSONObject;

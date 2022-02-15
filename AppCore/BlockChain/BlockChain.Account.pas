@@ -175,6 +175,7 @@ begin
   Result := AccountInfo;
 end;
 
+
 function TAccountBlockV0.GetSizeBlock: uint64;
 begin
   Result := Header.GetSize + AccountInfo.GetSize;
@@ -334,7 +335,7 @@ function TAccountTrxV0.CheckTrx(APublicKey: TBytes): boolean;
 var
   Buf: TMemoryStream;
   Bytes: TBytes;
-  signedHash, curHash: THash;
+  signedHash, curHash: Thash;
 begin
   try
     Buf := TMemoryStream.Create;

@@ -74,6 +74,12 @@ type
     fee: Double;
   end;
 
+  TMinedInfo = record
+    ValidAddress: THash;
+    BlockNumber: UInt64;
+    DateTime: Int64;
+  end;
+
   THelpInfoMainChain = record
     ID: UInt64;
     Hash: THash;

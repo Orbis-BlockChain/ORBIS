@@ -307,15 +307,19 @@ function TTokensChain.GetTokenDecimals(AID: UINT64): UINT64;
 var
   BaseBlock: TBaseBlock;
 begin
+  Result:= 0;
   BaseBlock := GetBlock(AID);
-  case BaseBlock.GetHeader.VersionData of
-    0:
-      begin
-        var
-          trx: TTokensTrxV0;
-        trx := Copy(BaseBlock.GetData, SizeOf(THeader), trx.GetSize);
-        Result := trx.TokensInfo.Decimals;
-      end;
+  if BaseBlock <> nil then
+  begin
+    case BaseBlock.GetHeader.VersionData of
+      0:
+        begin
+          var
+            trx: TTokensTrxV0;
+          trx := Copy(BaseBlock.GetData, SizeOf(THeader), trx.GetSize);
+          Result := trx.TokensInfo.Decimals;
+        end;
+    end;
   end;
   BaseBlock.Free;
 end;
