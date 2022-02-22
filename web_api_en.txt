@@ -1,10 +1,10 @@
-IMPORTANT! THE ARGUMENTS IN THE REQUESTS MUST BE SPECIFIED IN STRICT ORDER, IN ACCORDANCE WITH HOW DESCRIBED BELOW
+important! THE ARGUMENTS IN THE REQUESTS MUST BE SPECIFIED IN STRICT ORDER, IN ACCORDANCE WITH HOW DESCRIBED BELOW
 
 (GET) "/api/balance/" - current token balance
 Arguments:
 1)address - account address
 2)token - the short name of the token (its abbreviation)
-Request example:
+Request example: 
 /api/balance/?address=57LkviK66Hfx8TmSc3CzwQ66omHcqTAa1dKNKC7eTsJK&token=ORBC
 Returns:
 "wallet" - the account address
@@ -14,7 +14,7 @@ Returns:
 (GET)"/api/create/cryptocontainer/" - creating a new cryptocontainer
 Arguments:
 1)pass - password (at least 6 characters)
-Request example:
+Request example: 
 /api/create/cryptocontainer/?pass=123123
 Returns:
 "address" is the address of the created cryptographic
@@ -27,7 +27,7 @@ Arguments:
 3)to - address of the recipient account
 4)symbol - the short name of the token (abbreviation)
 5)amount - quantity
-Request example:
+Request example: 
 /api/create/transaction/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&pass=123123&to=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&token=ORBC&amount=12
 Returns:
 In case of successful creation of the transaction:
@@ -42,27 +42,27 @@ Arguments:
 1)owner_sign - transaction hash signed with the private key of the transaction creator
 Request example:
 /api/check/transaction/?owner_sign=2p3e8kpdTwRgbjVbfb9BCKGToQ3eizFkKYY2e3rvYDG9jAL8apT7PQKeP7Wnix87345Sb3riYKMA2rdnrDjYs7X
-Returns:
-If a transaction has been confirmed:
-status = "confirmed"
-"owner_sign" hash transactions signed by private key of the originator of the transaction
-"unix_time" - the date and time of the transaction(in Unix format)
-"from" address for the account of the sender
-"to" address for the account of the recipient
-"amount" - the amount of the transferred funds
+Returns: 
+If a transaction has been confirmed: 
+status = "confirmed" 
+"owner_sign" hash transactions signed by private key of the originator of the transaction 
+"unix_time" - the date and time of the transaction(in Unix format) 
+"from" address for the account of the sender 
+"to" address for the account of the recipient 
+"amount" - the amount of the transferred funds 
 "token" token(short name)
 If a transaction with the specified hash does not exist or has not yet been confirmed:
 "status" = "not confirmed or does not exist"
 
 (GET) "/api/create/token/" - Token creation
-Arguments:
+Arguments: 
 1)address - wallet address
 2)pass - password
-3)name - the full name of the token(not more than 32 characters, spaces and signs not allowed)
-4)symbol - the short name of the token(abbreviation from 2 to 4 Latin letters, spaces and signs not allowed)
-5)emission is the maximum amount of output(a positive integer more than 1 second)
-6)capacity - bit depth (number of decimal places, from 2 to 8 inclusive)
-Request example:
+3)name - the full name of the token(not more than 32 characters, spaces and signs not allowed) 
+4)symbol - the short name of the token(abbreviation from 2 to 4 Latin letters, spaces and signs not allowed) 
+5)emission is the maximum amount of output(a positive integer more than 1 second) 
+6)capacity is the capacity(the number of decimal places from 2 to 8, inclusive)
+Request example: 
 /api/create/token/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&pass=123123name=ORBISCoin&symbol=ORBC&emission=21000000&capacity=5
 Returns:
 In case of successful token creation:
@@ -71,13 +71,13 @@ In case of successful token creation:
 "symbol" - the short name of the created token
 "emission" - the maximum volume of issue of the created token
 "capacity" - the bit depth of the created token
-In case of error:
+In case of an error:
 "success" = False
 "error" - error description (such token already exists, etc.)
 
 (GET) "/api/buy/OM/" - purchase OM
 Attention! Before executing the command, make sure that you are no longer an OM holder and that there is enough ORBC in your account to purchase it (1 OM = 10000 ORBC)
-Arguments:
+Arguments: 
 1)address - wallet address
 2)pass - password
 Request example:
@@ -85,12 +85,12 @@ Request example:
 Returns:
 In case of a successful purchase of OM:
 "success" = True - the success of the purchase of OM
-In case of error:
+In case of an error:
 "success" = False
-"error" - error description (failed to log in to the wallet, OM has already been purchased, insufficient ORBC for purchase, etc.)
+"error" - error description (failed to log in to the wallet, OM has already been purchased, not enough ORBC to purchase, etc.)
 
 (GET) "/api/checkom/" - checking whether the specified account is an OM holder
-Arguments:
+Arguments: 
 1)address - account address
 Request example:
 /api/checkom/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup
@@ -101,11 +101,11 @@ If success = false:
 "error" - error description(a non-existent address is specified, etc.)
 
 (GET)"/api/create/service/" - Creating a service
-Arguments:
+Arguments: 
 1)address - wallet address
 2)pass - password
 3)name - the unique name of the service (length from 1 to 32 characters. Only Latin letters and signs (excluding &). Must begin with a Latin letter. Case matters)
-Request example:
+Request example: 
 /api/create/service/?address=37tBiV8btkNUHTk6Q9bnYZRVyW7XWSseWw4REtsznWgS&pass=123123&name=My$ervIce
 Returns:
 In case of successful creation of the service:
@@ -115,12 +115,12 @@ In case of an error:
 "error" - error description (failed to log in to the wallet, a service with that name already exists, incorrect service name, etc.)
 
 (GET)"/api/service/set_data/" - Writing data to the service
-Arguments:
+Arguments: 
 1)address - wallet address
 2)pass - password
 3)name - the name of the service
 4)data - data in the form of a set of bytes (no more than 100 bytes, in Base64 encoding)
-Request example:
+Request example: 
 /api/service/set_data/?address=37tBiV8btkNUHTk6Q9bnYZRVyW7XWSseWw4REtsznWgS&pass=123123&name=My$ervIce&data=0KXRg9C70Lgg0YLRg9GCINGC0LDQuiDQvNCw0LvQvj8g0K3RgtC+INC90LDRiNCwINGC0L7Rh9C60LAg0LHQu9GP0YLRjCEg0KLRiyDQvdCwINC/0LXQvdGR0Log0YHQtdC70L
 Returns:
 If the data is successfully written to the service:
@@ -132,7 +132,7 @@ In case of an error:
 (GET)"/api/service/get_data/" - Reading data from the service
 Arguments:
 1)name - the name of the service
-Request example:
+Request example: 
 /api/service/get_data/?name=My$ervIce
 Returns:
 In case of an error:
@@ -148,7 +148,7 @@ In case of successful reading of data from the service:
 (GET)"/api/service_info/" - Request for service data
 Arguments:
 1)name - the name of the service
-Request example:
+Request example: 
 /api/create/service/?name=My$ervIce
 Returns:
 In case of a successful request:
@@ -161,7 +161,7 @@ In case of an error:
 "error" - error description (a service with this name does not exist, etc.)
 
 (GET) "/api/address_balances/" - Request data about account tokens with their current balance
-Arguments:
+Arguments: 
 1)address - account address
 Request example:
 /api/address_balances/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup
@@ -174,7 +174,7 @@ Returns:
 Arguments:
 1)keys - a list of keys (enumeration with underscores)
 2)pass - a new password to access the recoverable cryptographic container
-Request example:
+Request example: 
 /api/restore/cryptocontainer/keys/?keys=GRASS_JOIN_FRUIT_VIRUS_COIL_KNOW_HINT_WILL_HOVER_TRULY_PIGEON_PHONE_BROOM_NOSE_BUBBLE_TICKET_INCREASE_INTO_WISDOM_MINUTE_OMIT_MERGE_DESIGN_KIWI_BICYCLE_PELICAN_RAW_FALSE_EXTEND_MISS_RAIN_FUEL_MOUSE_MUSIC_MIMIC_STYLE_DOOR_SPEED_SEMINAR_ELDER_SONG_MASTER_ELECTRIC_RETREAT_FESTIVAL_SPATIAL_WOMAN&pass=111111
 Returns:
 "success" - the success of the operation
@@ -184,7 +184,7 @@ Returns:
 Arguments:
 1)address - account address
 2)tokens - a list of tokens (enumeration through underscores), or "all" to select all tokens.
-Request example:
+Request example: 
 /api/address_info/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&tokens=TOROM_QUIPA_FOLEX
 /api/address_info/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&tokens=all
 Returns:
@@ -209,8 +209,242 @@ Arguments:
 7)date_to - date of the end of the period (in the format dd.mm.yyyy_h:mm:ss); by default is equal to this point in time; for tab = "tokens", the value is ignored
 8)type - transaction type ("incoming","outgoing", "all"); default is "all"; for tab = "tokens" the value is ignored
 
+
 3 variations of the request:
 1st option: the arguments tab,address,tokens,page,pagesize are specified
-Request example:
+Request example: 
 /api/address_info_details/?tab=tokens&address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&tokens=all&page=1&pagesize=10
 Returns a list of the specified tokens that appear in the account's transaction history for the entire time
+
+2nd option: the arguments tab,address,tokens,page,pagesize,type are specified
+Request example: 
+/api/address_info_details/?tab=transactions&address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&tokens=all&page=1&pagesize=10&type=incoming
+Returns a list of incoming account transactions for the selected tokens for the entire time
+
+3rd option: the arguments tab,address,tokens,page,pagesize,date_from,date_to,type are specified
+Request example: 
+/api/address_info_details/?tab=transactions&address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup&tokens=all&page=1&pagesize=10&date_from=23.07.2020_5:06:26&date_to=05.03.2021_16:33:52&type=incoming
+Returns a list of incoming account transactions for the selected tokens for the time period from 07/23/2020_5:06:26 to 03/05/2021_16:33:52 inclusive
+
+For tab = "transactions", the query returns the following information:
+"trans_count" - the number of transactions in the generated list.
+The array "list" consisting of the elements with the following fields: 
+"unix_time" - the date and time of the transaction(in Unix format) 
+"block_number" room block 
+"from" address for the account of the sender 
+"to" address for the account of the recipient 
+"hash" is the hash of the transaction 
+"token" token(short name) 
+"sent" - sent 
+received received 
+"fee" - the fee(percentage, decimal)
+If the "list" is not empty, then the answer is supplemented with information:
+"earlier_trans_unix_date" - the date of the last transaction account in the specified time period on the selected tokens(in Unix format) 
+"latest_trans_unix_date" - the date of the first transaction account in the specified period of time according to the selected tokens(in Unix format) 
+"earlier_trans_unix_date_ever" - the date of the last transaction account on the selected tokens all the time(in Unix format) 
+"latest_trans_unix_date_ever" - the date of the first transaction account on the selected tokens all the time(in Unix format)
+
+For tab = "tokens", the query returns the following ifnormation:
+"tokens_count" - the number of tokens. If "tokens_count" > 1, then there will be elements with the following fields in the "list" array:
+"token" - token (its short name)
+"balance" - token balance at the moment
+"sent" - sent
+"received" - received
+"trans_count" - number of transactions with this token
+
+(GET)"/api/address_tokens/" - Request a list of user tokens appearing in his transaction history
+Arguments:
+1)address - account address
+Request example: 
+/api/address_tokens/?address=8QjFv11MGJrZcmaxfp8RRER5aJEB3fLokZdYk78Fdqup
+Returns:
+"tokens" is an ordered array of 26 nested arrays (for each letter of the Latin alphabet) with data about tokens having the following fields:
+"symbol" is the short name of the token (abbreviation)
+"name" is the full name of the token
+
+(GET)"/api/general_info/" - Request for general network information (with "pagination" of the response)
+2 variations of the request:
+
+1st option: include arguments: 
+1)name - specify a subject for the list data ("accounts","transactions","tokens","services", "mined" or "mining") 
+2)pagesize - dimension page list(the amount of data on one page) 
+3)page - page
+Request example: 
+/api/general_info/?name=transactions&page=1&pagesize=10
+
+2nd option: arguments are specified:
+1)name - specifying the subject for the list of data ("accounts","transactions","tokens","services", "mined", "mining" or "main_info")
+2)sortby - sorting field. Possible values: (default "blocknum" for "name" = "transactions", "address" for the "name" = "mining", "main_blocknum" for "name" = "main_info", or "datetime") 
+For name = 'accounts': datetime(date and time of account creation) 
+For name = transacions: datetime(date and time of creation of the transaction),
+			blocknum(block number),
+			token (short name of the token),
+			sent(number of tokens sent);
+For name = tokens: datetime(date and time of token creation),
+		   ownerid(id of the token creator),
+		   name (full name of the token),
+		   symbol (short name of the token),
+		   decimals(number of decimal places),
+		   volume(token issue volume);
+For name = services: datetime(date and time of service creation),
+		     ownerid(id of the service creator),
+		     name(service name);
+For name = mined: datetime(date and time of the mining that took place),
+		  blocknum(the number of the block from which the calculation took place);
+For name = mining: address(address of the owner of the OM);
+For name = main_info: main_blocknum(main chain block id);
+3)inverse - reverse sort order. Possible values: true or false(false by default)
+4)page - page
+5)pagesize - the dimension of the list page (the amount of data on one page)
+
+Request example: 
+/api/general_info/?name=transactions&sortby=token&inverse=false&page=1&pagesize=100
+Returns:
+For "name" = "accounts":
+"amount_list" - the total number of accounts in the network
+Array "list" of elements with the following fields:
+"address" - account address
+"reg_unix_date" - date and time of account registration (in Unix format)
+
+For "name" = "transactions":
+"amount_list" - the total number of transactions in the network
+The array "list" of elements with the following fields: 
+"unix_time" - the date and time of the transaction(in Unix format) 
+"block_number" room block 
+"from" address for the account of the sender 
+"to" address for the account of the recipient 
+"hash" is the hash of the transaction 
+"token" token 
+"sent" - sent 
+received received 
+"fee" - the fee(percentage, decimal)
+
+For "name" = "tokens":
+"amount_list" - the total number of tokens in the network
+Array "list" of elements with the following fields:
+"owner_id" - the id of the token owner account
+"name" - the full name of the token
+"symbol" - the short name of the token (its abbreviation)
+"decimals" - the bit depth of the token (the number of zeros after the decimal point)
+"volume" - the total volume of the token issue
+"unix_time" - the date of creation of the token (in Unix format)
+
+For "name" = "services":
+"amount_list" - the total number of services in the network
+Array "list" of elements with the following fields:
+"name" - name of the service
+"owner_id" - id of the account-creator of the service
+"unix_time" - date of creation of the service (in Unix format)
+
+For "name" = "mined":
+"amount_list" - the total number of past mining
+Array "list" of elements with the following fields:
+"unix_time" - the date and time of mining (in Unix format)
+"validator_address" - the address of the validator who confirmed the mining
+"block_number" - the number of the block from which the calculation occurred
+
+For "name" = "mining":
+"amount_list" - the total number of past mining
+Array "list" of elements with the following fields:
+"address" - the address of the owner of the OM
+
+For "name" = "main_info":
+"amount_list" - the total number of blocks in the main chain
+Array "list" of elements with the following fields:
+"main_chain_block_id" - block number in the main chain
+"witness_id" - validator id
+"owner_sign" - validator signature
+"unix_time" - block creation date (in Unix format)
+"chain_id" - chain number
+"block_id" - block number in the chain
+"hash_block" - transaction hash
+
+(GET)"/api/transaction_info/" - Request detailed information about the transaction by its hash
+Arguments:
+1)hash - hash of the transaction
+Request example: 
+/api/transaction_info/?hash=3nipkywbdx6n3wrs2zq7lkifr7wg
+Returns:
+"unix_time" - date and time of the transaction(in Unix format)
+"block_number" - block number
+"from" - address of the sender account
+"to" - recipient account address
+"hash" - transaction hash
+"token" - token(short name)
+"sent" - sent
+"received" - received
+"fee" - commission (percentage, decimal)
+
+(GET)"/api/token_info/" - Request for token information
+Arguments:
+1)symbol - the short name of the token (its abbreviation)
+Request example: 
+/api/token_info/?symbol=ORBC
+Returns:
+"owner_id" - id of the account-owner of the token
+"name" - the full name of the token
+"symbol" - the short name of the token (its abbreviation)
+"decimals" - the bit depth of the token (the number of zeros after the decimal point)
+"volume" - the total volume of the token issue
+"unix_time" - the date of creation of the token (in Unix format)
+"trans_count" - the total number of transactions with this token
+"owners_count" - the number of accounts with the current positive balance value of this token
+
+(GET)"/api/token_info_details/" - Request for a list of transactions or accounts of holders of the specified token (with "pagination" of the response)
+Arguments:
+1)tab - specifying the subject for the list of data ("transactions" or "owners")
+2)symbol - the short name of the token (its abbreviation)
+3)page - page
+4)pagesize - the dimension of the list page (the amount of data on one page)
+
+Request example: 
+/api/token_info_details/?tab=transactions&name=ORBC&page=1&pagesize=10
+Returns:
+If "tab" = "transactions":
+The array "list" of elements with the following fields: 
+"unix_time" - the date and time of the transaction(in Unix format) 
+"block_number" room block 
+"from" address for the account of the sender 
+"to" address for the account of the recipient 
+"hash" is the hash of the transaction 
+"token" token 
+"sent" - sent 
+received received 
+"fee" - the fee(percentage, decimal)
+
+If "tab" = "owners":
+Array "list" of elements with the following fields:
+"id" - account id
+"address" - account address
+"reg_unix_date" - account registration date (in Unix format)
+"balance" - current token balance
+
+(GET)"/api/statistics/" - Request statistics for the specified time period
+Arguments:
+1)tab - specifying the subject for the list of data (currently only "validators")
+2)date_from - the start date of the period (in the format dd.mm.yyyy_h:mm:ss); by default, it is equal to the current time minus 604800 seconds(7 days)
+3)date_to - date of the end of the period (in the format dd.mm.yyyy_h:mm:ss); by default is equal to this moment in time
+4)step - the "step" of the sample; by default it is 86400 seconds (1 day)
+
+2 variations of the query:
+1st option: the "tab" argument is specified
+Request example:
+/api/statistics/?tab=validators
+
+2nd option: all arguments are specified
+Request example:
+/api/statistics/?tab=validators&date_from=12.07.2021_5:14:14&date_to=13.07.2021_6:14:14&step=3600
+Returns:
+Array "list" of elements (including boundary values) with the following fields:
+"unix_time" - date
+"count" - quantity
+
+(GET)"/api/mining_info/" - Request for information about the last mining
+Arguments: not expected
+
+Request example:
+/api/mining_info/
+Returns:
+"next_mining_date" - date and time of the next mining (in Unix format)
+"OM_count" - number of OM in the network
+"ORBC_in_circulation" - number of ORBC in circulation
